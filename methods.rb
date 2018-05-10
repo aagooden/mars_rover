@@ -1,9 +1,10 @@
 class Rover
 
-  attr_accessor :name
+  attr_accessor :name, :position
 
-  def initialize(name)
+  def initialize(name, position="position")
     @name = name
+    @position = position
   end
 
 end

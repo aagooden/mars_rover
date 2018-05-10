@@ -7,3 +7,14 @@ attr_accessor :name
   end
 
 end
+
+
+class Grid
+
+attr_accessor :name
+
+  def initialize(name)
+    @name = name
+  end
+
+end

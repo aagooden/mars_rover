@@ -11,7 +11,11 @@ class Mars_test < Minitest::Test
   def test_rover_class_initialize
     rover = Rover.new("rover1")
     assert_equal("rover1", rover.name)
-    puts "#{rover.name}"
   end
+
+	def test_grid_class_initialize
+		grid = Grid.new("grid")
+		assert_equal("grid", grid.name)
+	end
 
 end

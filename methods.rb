@@ -1,6 +1,6 @@
 class Rover
 
-attr_accessor :name
+  attr_accessor :name
 
   def initialize(name)
     @name = name
@@ -11,7 +11,7 @@ end
 
 class Grid
 
-attr_accessor :name
+  attr_accessor :name
 
   def initialize(name)
     @name = name

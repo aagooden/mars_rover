@@ -9,7 +9,7 @@ class Mars_test < Minitest::Test
 	end
 
   def test_rover_class_initialize
-    rover = Rover.new("rover1", "position")
+    rover = Rover.new("rover1")
     assert_equal("rover1", rover.name)
   end
 
@@ -26,5 +26,10 @@ class Mars_test < Minitest::Test
 	def test_rover_class_direction
 		rover = Rover.new("rover1", "position", "direction")
 		assert_equal("direction", rover.direction)
+	end
+
+	def test_grid_class_size
+		grid = Grid.new("grid")
+		assert_equal([1,1], grid.size)
 	end
 end

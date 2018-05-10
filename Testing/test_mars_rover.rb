@@ -23,4 +23,8 @@ class Mars_test < Minitest::Test
 		assert_equal("position", rover.position)
 	end
 
+	def test_rover_class_direction
+		rover = Rover.new("rover1", "position", "direction")
+		assert_equal("direction", rover.direction)
+	end
 end

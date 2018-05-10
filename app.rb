@@ -1,5 +1,4 @@
 require "sinatra"
-require "erb"
 require_relative "methods.rb"
 enable :sessions
 

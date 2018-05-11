@@ -36,4 +36,11 @@ class Mars_test < Minitest::Test
 	def test_instructions_array
 		assert_equal([], instructions_array())
 	end
+
+	def test_instructions_array_for_correct_splitting
+		instructions = "5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM"
+		correct_array_return = ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"]
+		actual = instructions_array(instructions)
+		assert_equal(correct_array_return, actual)
+	end
 end

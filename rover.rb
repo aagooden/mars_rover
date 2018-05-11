@@ -12,4 +12,7 @@ class Rover
     @position = position
   end
 
+  def set_rover_direction(direction)
+  end
+
 end

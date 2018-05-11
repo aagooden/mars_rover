@@ -33,8 +33,9 @@ class Mars_test < Minitest::Test
 		assert_equal([1,1], grid.size)
 	end
 
-	def test_instructions_array
-		assert_equal([], instructions_array())
+	def test_instructions_array_class
+		actual = instructions_array()
+		assert_equal(Array, actual.class)
 	end
 
 	def test_instructions_array_for_correct_splitting

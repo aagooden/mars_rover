@@ -69,4 +69,9 @@ class Mars_test < Minitest::Test
     assert_equal("controller", controller.name)
   end
 
+	def test_controller_hash_creation
+		function = controller_hash("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
+		assert_equal(Hash, function.class)
+	end
+
 end

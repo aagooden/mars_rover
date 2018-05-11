@@ -48,6 +48,6 @@ class Mars_test < Minitest::Test
 	def test_set_grid_size
 		grid = Grid.new("grid")
 		information_array = ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"]
-		assert_equal([5,5], grid.size(information_array))
+		assert_equal([5,5], grid.set_grid_size(information_array))
 	end
 end

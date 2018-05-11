@@ -51,4 +51,11 @@ class Mars_test < Minitest::Test
 		assert_equal([5,5], grid.set_grid_size(grid_size))
 	end
 
+	def test_set_rover_position
+		rover = Rover.new("Rover1")
+		position = [1,2]
+		assert_equal([1,2], rover.set_rover_position(position))
+	end
+
+
 end

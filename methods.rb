@@ -11,4 +11,5 @@ end
 
 def controller_hash(instructions)
   instructions = {}
+  return instructions
 end

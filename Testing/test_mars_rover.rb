@@ -32,4 +32,8 @@ class Mars_test < Minitest::Test
 		grid = Grid.new("grid")
 		assert_equal([1,1], grid.size)
 	end
+
+	def test_instructions_array
+		assert_equal([], instructions_array())
+	end
 end

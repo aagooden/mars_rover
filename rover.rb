@@ -9,7 +9,7 @@ class Rover
   end
 
   def set_rover_position(position)
-
+    @position = position
   end
 
 end

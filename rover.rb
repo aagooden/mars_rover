@@ -13,6 +13,7 @@ class Rover
   end
 
   def set_rover_direction(direction)
+    @direction = direction
   end
 
 end

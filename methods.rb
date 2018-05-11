@@ -9,7 +9,7 @@ def instructions_array(instructions="5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
   return instructions
 end
 
-def controller_hash(instructions)
+def controller_hash_grid_size(instructions)
   instructions_hash = {}
   information_array = instructions_array(instructions)
   grid_size = information_array[0.to_i].split(" ")

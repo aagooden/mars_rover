@@ -15,5 +15,6 @@ def controller_hash(instructions)
   grid_size = information_array[0.to_i].split(" ")
   grid_size = grid_size.map(&:to_i)
   instructions_hash["grid_size"] = grid_size
+
   return instructions_hash
 end

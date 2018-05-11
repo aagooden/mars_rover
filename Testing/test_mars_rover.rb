@@ -2,6 +2,7 @@ require "minitest/autorun"
 require_relative "../app.rb"
 require_relative "../methods.rb"
 
+
 class Mars_test < Minitest::Test
 
 	def test_boolean
@@ -63,5 +64,9 @@ class Mars_test < Minitest::Test
 		assert_equal("N", rover.set_rover_direction(direction))
 	end
 
+	def test_controller_class_initialize
+    controller = Controller.new("controller")
+    assert_equal("controller", controller.name)
+  end
 
 end

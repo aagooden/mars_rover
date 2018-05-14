@@ -12,7 +12,7 @@ class Grid
   end
 
   def check_move(move)
-
+    return true
   end
 
 end

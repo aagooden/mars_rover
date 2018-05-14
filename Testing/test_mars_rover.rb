@@ -93,4 +93,9 @@ class Mars_test < Minitest::Test
 		actual = controller_hash_creation_rover_direction("1 2 N")
 		assert_equal(String, actual.class)
 	end
+
+	def test_controller_hash_creation_rover_direction
+		actual = controller_hash_creation_rover_direction("1 2 N")
+		assert_equal("N", actual)
+	end
 end

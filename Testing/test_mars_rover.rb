@@ -84,4 +84,9 @@ class Mars_test < Minitest::Test
 		assert_equal(Array, actual.class)
 	end
 
+	def test_controller_hash_creation_rover_position
+		actual = controller_hash_creation_rover_position("1 2 N")
+		assert_equal([1,2], actual)
+	end
+
 end

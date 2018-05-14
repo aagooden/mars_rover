@@ -11,4 +11,8 @@ class Grid
     @size = grid_size
   end
 
+  def check_move(move)
+
+  end
+
 end

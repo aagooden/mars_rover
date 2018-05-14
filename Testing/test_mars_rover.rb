@@ -69,7 +69,7 @@ class Mars_test < Minitest::Test
     assert_equal("controller", controller.name)
   end
 
-	def test_controller_hash_creation
+	def test_controller_hash_creation_class
 		function = controller_hash_creation("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
 		assert_equal(Hash, function.class)
 	end
@@ -98,4 +98,13 @@ class Mars_test < Minitest::Test
 		actual = controller_hash_creation_rover_direction("1 2 N")
 		assert_equal("N", actual)
 	end
+
+	def test_controller_hash_creation
+		instructions = "5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM"
+		number_of_rovers = 2
+		actual = controller_hash_creation(instructions, number_of_rovers)
+		expected = {"grid_size" => [5,5], "move1" => [[1,2],"N","LMLMLMLMM"], "move2" => [[3,3],"E","MMRMMRMRRM"]}
+		assert_equal(expected, actual)
+	end
+
 end

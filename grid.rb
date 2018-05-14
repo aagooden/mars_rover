@@ -12,7 +12,13 @@ class Grid
   end
 
   def check_move(move)
-    return true
+    if move[0] > @size[0] || move[0] < 0
+        return false
+      elsif move[1] > @size[1] || move[1] < 0
+        return false
+      else
+        return true
+    end
   end
 
 end

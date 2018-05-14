@@ -13,7 +13,4 @@ class Controller
       @rovers["rover#{x}"] = Rover.new("rover#{x}", controller_hash["move#{x}"][0], controller_hash["move#{x}"][1], controller_hash["move#{x}"][2])
     end
   end
-
-
-
 end

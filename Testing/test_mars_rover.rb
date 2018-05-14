@@ -205,4 +205,12 @@ class Mars_test < Minitest::Test
 		moves = rovers["rover2"].moves
 		assert_equal("MMRMMRMRRM", moves)
 	end
+
+	def test_controller_move_rovers_class
+		number_of_rovers = 1
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"]}
+		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
+		actual = controller1.move_rovers
+		assert_equal(Hash, actual.class)
+	end
 end

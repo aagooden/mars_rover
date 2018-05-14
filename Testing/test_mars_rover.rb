@@ -65,7 +65,9 @@ class Mars_test < Minitest::Test
 	end
 
 	def test_controller_class_initialize
-    controller = Controller.new("controller")
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
+		number_of_rovers = 2
+    controller = Controller.new("controller", controller_hash, number_of_rovers)
     assert_equal("controller", controller.name)
   end
 
@@ -166,5 +168,14 @@ class Mars_test < Minitest::Test
 		possible_coordinates = [1,-1]
 		checked_move = grid.check_move(possible_coordinates)
 		assert_equal(false, checked_move)
+	end
+
+	def test_controller_rover_creation
+		number_of_rovers = 2
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
+		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
+		rovers = controller1.rovers
+		name = rovers["rover2"].name
+		assert_equal("rover2", name)
 	end
 end

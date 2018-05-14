@@ -31,3 +31,6 @@ def controller_hash_creation_rover_position(instructions)
   rover_position[1] = temp_array[1].to_i
   return rover_position
 end
+
+def controller_hash_creation_rover_direction(instructions)
+end

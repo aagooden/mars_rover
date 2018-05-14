@@ -15,9 +15,14 @@ class Rover
     else
       new_direction = compass[compass.index(@direction)-1]
     end
-
+    @direction = new_direction
     return new_direction
   end
+
+  def move()
+  end
+
+
 
 
 end

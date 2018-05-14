@@ -187,4 +187,13 @@ class Mars_test < Minitest::Test
 		position = rovers["rover2"].position
 		assert_equal([3,3], position)
 	end
+
+	def test_controller_rover_creation_testing_for_correct_dirction
+		number_of_rovers = 2
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
+		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
+		rovers = controller1.rovers
+		 direction = rovers["rover2"].direction
+		assert_equal("E", direction)
+	end
 end

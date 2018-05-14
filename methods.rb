@@ -26,5 +26,8 @@ end
 
 def controller_hash_creation_rover_position(instructions)
   rover_position = []
+  temp_array = instructions.split(" ")
+  rover_position[0] = temp_array[0].to_i
+  rover_position[1] = temp_array[1].to_i
   return rover_position
 end

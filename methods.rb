@@ -25,6 +25,6 @@ def controller_hash_creation_grid_size(instructions)
 end
 
 def controller_hash_creation_rover_position(instructions)
-
+  rover_position = []
   return rover_position
 end

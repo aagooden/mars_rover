@@ -140,4 +140,17 @@ class Mars_test < Minitest::Test
 		assert_equal(true, checked_move)
 	end
 
+	def test_grid_check_move_1
+		grid = Grid.new("grid1",[5,5])
+		possible_coordinates = [4,4]
+		checked_move = grid.check_move(possible_coordinates)
+		assert_equal(true, checked_move)
+	end
+
+	def test_grid_check_move_2
+		grid = Grid.new("grid1",[5,5])
+		possible_coordinates = [4,6]
+		checked_move = grid.check_move(possible_coordinates)
+		assert_equal(false, checked_move)
+	end
 end

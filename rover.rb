@@ -1,6 +1,6 @@
 class Rover
 
-  attr_accessor :name, :position, :direction
+  attr_accessor :name, :position, :direction, :moves
 
   def initialize(name="rover1", position=[1,2], direction="N", moves="moves")
     @name = name

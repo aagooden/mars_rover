@@ -12,7 +12,7 @@ end
 def controller_hash_creation(instructions)
   instructions_hash = {}
   information_array = instructions_array(instructions)
-  p information_array
+
   return instructions_hash
 end
 
@@ -24,5 +24,7 @@ def controller_hash_creation_grid_size(instructions)
   return grid_size
 end
 
-def controller_hash_creation_rover_position(instructions, controller_hash)
+def controller_hash_creation_rover_position(instructions)
+
+  return rover_position
 end

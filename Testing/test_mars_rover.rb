@@ -79,10 +79,9 @@ class Mars_test < Minitest::Test
 		assert_equal([5,5], function)
 	end
 
-	# def test_controller_hash_creation_rover_position
-	# 	controller_hash = {"grid_size" => [5,5]}
-	# 	function = controller_hash_rover_position("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM",controller_hash)
-	# 	assert_equal({"grid_size" => [5,5], "rover_position" => [1,2]}, function)
-	# end
+	def test_controller_hash_creation_rover_position_is_an_array
+		actual = controller_hash_creation_rover_position("1 2 N")
+		assert_equal(Array, actual.class)
+	end
 
 end

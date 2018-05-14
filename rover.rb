@@ -9,6 +9,14 @@ class Rover
   end
 
   def rotate(rotation)
+    compass = ["N","E","S","W"]
+    if rotation == "R"
+      new_direction = compass[compass.index(@direction)+1]
+    else
+      new_direction = compass[compass.index(@direction)-1]
+    end
+
+    return new_direction
   end
 
 

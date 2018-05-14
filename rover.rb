@@ -2,18 +2,14 @@ class Rover
 
   attr_accessor :name, :position, :direction
 
-  def initialize(name="rover1", position="position", direction="direction")
+  def initialize(name="rover1", position=[1,2], direction="N")
     @name = name
     @position = position
     @direction = direction
   end
 
-  def set_rover_position(position)
-    @position = position
+  def rotate(rotation)
   end
 
-  def set_rover_direction(direction)
-    @direction = direction
-  end
 
 end

@@ -55,13 +55,13 @@ class Mars_test < Minitest::Test
 	def test_set_rover_position
 		rover = Rover.new("Rover1")
 		position = [1,2]
-		assert_equal([1,2], rover.set_rover_position(position))
+		assert_equal([1,2], rover.position)
 	end
 
 	def test_set_rover_dirction
 		rover = Rover.new("Rover1")
 		direction = "N"
-		assert_equal("N", rover.set_rover_direction(direction))
+		assert_equal("N", rover.direction)
 	end
 
 	def test_controller_class_initialize
@@ -113,6 +113,12 @@ class Mars_test < Minitest::Test
 		actual = controller_hash_creation(instructions, number_of_rovers)
 		expected = {"grid_size" => [5,5], "move1" => [[1,2],"N","LMLMLMLMM"], "move2" => [[3,3],"E","MMRMMRMRRM"], "move3" => [[4,4],"S","MMRMMRMRRMLMRMMRRLLMMM"]}
 		assert_equal(expected, actual)
+	end
+
+	def test_rover_rotate
+		rover1 = Rover.new
+		new_direction = rover1.rotate("R")
+		assert_equal("E", new_direction)
 	end
 
 end

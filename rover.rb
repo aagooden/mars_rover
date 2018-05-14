@@ -20,6 +20,7 @@ class Rover
   end
 
   def move()
+    new_coordinates = []
   end
 
 

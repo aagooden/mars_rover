@@ -75,7 +75,7 @@ class Mars_test < Minitest::Test
 	end
 
 	def test_controller_hash_creation
-		function = controller_hash_grid_size("5 5")
+		function = controller_hash_creation("5 5")
 		assert_equal({"grid_size" => [5,5]}, function)
 	end
 

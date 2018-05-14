@@ -34,4 +34,6 @@ end
 
 def controller_hash_creation_rover_direction(instructions)
   rover_direction = ""
+  temp_array = instructions.split(" ")
+  rover_direction = temp_array[2]
 end

@@ -33,4 +33,5 @@ def controller_hash_creation_rover_position(instructions)
 end
 
 def controller_hash_creation_rover_direction(instructions)
+  rover_direction = ""
 end

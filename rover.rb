@@ -21,6 +21,17 @@ class Rover
 
   def move()
     new_coordinates = []
+    case @direction
+      when "N"
+        new_coordinates = [@position[0], @position[1]+1]
+      when "E"
+        new_coordinates = [@position[0]+1, @position[1]]
+      when "S"
+        new_coordinates = [@position[0], @position[1]-1]
+      when "W"
+        new_coordinates = [@position[0]-1, @position[1]]
+    end
+    return new_coordinates
   end
 
 

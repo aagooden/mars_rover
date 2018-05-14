@@ -127,10 +127,10 @@ class Mars_test < Minitest::Test
 		assert_equal(Array, new_coordinates.class)
 	end
 
-	def test_rover_move_class_1
+	def test_rover_move_1
 		rover1 = Rover.new
 		new_coordinates = rover1.move()
-		assert_equal([1,3], new_coordinates.class)
+		assert_equal([1,3], new_coordinates)
 	end
 
 end

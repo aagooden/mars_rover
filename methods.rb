@@ -12,11 +12,11 @@ end
 def controller_hash_creation(instructions)
   instructions_hash = {}
   information_array = instructions_array(instructions)
-  grid_size = information_array[0].split(" ")
-  grid_size = grid_size.map(&:to_i)
-  instructions_hash["grid_size"] = grid_size
 
   return instructions_hash
+end
+
+def controller_hash_creation_grid_size(instructions)
 end
 
 def controller_hash_creation_rover_position(instructions, controller_hash)

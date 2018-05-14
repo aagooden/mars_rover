@@ -70,13 +70,13 @@ class Mars_test < Minitest::Test
   end
 
 	def test_controller_hash_creation
-		function = controller_hash_grid_size("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
+		function = controller_hash_creation("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
 		assert_equal(Hash, function.class)
 	end
 
-	def test_controller_hash_creation
-		function = controller_hash_creation("5 5")
-		assert_equal({"grid_size" => [5,5]}, function)
+	def test_controller_hash_creation_grid_size
+		function = controller_hash_creation_grid_size("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
+		assert_equal([5,5], function)
 	end
 
 	# def test_controller_hash_creation_rover_position

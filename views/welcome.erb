@@ -1,7 +1,44 @@
 
 <!-- <body background="some_picture.jpg"> -->
 
-	<h1>Welcome</h1>
+	<h1>Welcome to Mars Rover Mission Control</h1>
+
+<form class="" action="mission_info" method="post">
+
+	<h3>Input the grid size as maximum x and y coordinates</h3>
+		(<input type="number" name="grid_x_value" placeholder="Grid X value">,
+		<input type="number" name="grid_y_value" placeholder="Grid Y value">)<br><br>
+
+	<h3>Input the starting coordinates of Rover #1 as x and y coordinate</h3>
+		(<input type="number" name="rover1_x_value" placeholder="Rover 1 X value">,
+		<input type="number" name="rover1_y_value" placeholder="Rover 1 Y value">)<br>
+
+	<h3>Input the starting direction of Rover #1</h3>
+		<select name="rover1_direction">
+		  <option value="N">North</option>
+		  <option value="E">East</option>
+		  <option value="S">South</option>
+		  <option value="W">West</option>
+		</select><br>
+
+	<h3>Input Rover #1 moves</h3>
+		<input type="text" name="rover1_moves" placeholder="Rover #1 Moves">
+
+	<h3>Input the starting coordinates of Rover #2 as x and y coordinate</h3>
+		(<input type="number" name="rover2_x_value" placeholder="Rover 2 X value">,
+		<input type="number" name="rover2_y_value" placeholder="Rover 2 Y value">)
 
 
-<!-- </body> -->
+	<h3>Input the starting direction of Rover #2</h3>
+		<select name="rover2_direction">
+			<option value="N">North</option>
+			<option value="E">East</option>
+			<option value="S">South</option>
+			<option value="W">West</option>
+		</select><br><br>
+
+	<h3>Input Rover #2 moves</h3>
+		<input type="text" name="rover2_moves" placeholder="Rover #2 Moves">
+
+	<input type="submit" name="" value="Submit">
+</form>

@@ -1,0 +1,15 @@
+
+<!--<img class="resize" src="/some_picture_.jpg"> -->
+
+<%rover1_route = session[:rover_routes]["rover1"]%>
+<%rover2_route = session[:rover_routes]["rover2"]%>
+
+<h2>The starting position for Rover #1 is <%=rover1_route[0]%></h2>
+<h3>The path Rover #1 took is <%=rover1_route%></h3>
+<h2>The ending position for Rover #1 is <%=rover1_route.last%></h2><br><br>
+
+
+
+<h2>The starting position for Rover #2 is <%=rover2_route[0]%></h2>
+<h3>The path Rover #2 took is <%=rover2_route%></h3>
+<h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>

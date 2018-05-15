@@ -18,13 +18,14 @@ class Controller
   def move_rovers(current_rover)
     route_hash = {}
     route_hash[current_rover.name] = []
+    route_hash[current_rover.name].push(current_rover.position + [current_rover.direction])
       rover_moves = current_rover.moves.each_char.to_a
       rover_moves.each do |r_move|
           case r_move
             when "M"
               new_coordinates = current_rover.move
                 if @grid.check_move(new_coordinates)
-                  route_hash[current_rover.name].push(new_coordinates)
+                  route_hash[current_rover.name].push(new_coordinates + [current_rover.direction])
                   current_rover.position = new_coordinates
                 end
           end

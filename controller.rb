@@ -28,6 +28,9 @@ class Controller
                   route_hash[current_rover.name].push(new_coordinates + [current_rover.direction])
                   current_rover.position = new_coordinates
                 end
+            else
+              new_direction = current_rover.rotate(r_move)
+              route_hash[current_rover.name].push(current_rover.position + [new_direction])
           end
       end
     return route_hash

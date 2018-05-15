@@ -239,11 +239,8 @@ class Mars_test < Minitest::Test
 		number_of_rovers = 2
 		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
 		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
-		puts "The rover hash should be as follows #{controller1.rovers}"
 		current_rover = controller1.rovers["rover2"]
-		puts "This is rover2 #{current_rover}"
 		actual = controller1.move_rovers(current_rover)
-		puts "This is actual #{actual}"
 		expected = {"rover2"=>[[3,3,"E"],[4,3,"E"],[5,3,"E"],[5,3,"S"],[5,2,"S"],[5,1,"S"],[5,1,"W"],[4,1,"W"],[4,1,"N"],[4,1,"E"],[5,1,"E"]]}
 		assert_equal(expected, actual)
 	end
@@ -252,9 +249,9 @@ class Mars_test < Minitest::Test
 		number_of_rovers = 2
 		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
 		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
-		current_rover = controller1.rovers["rover2"]
+		current_rover = controller1.rovers["rover1"]
 		actual = controller1.move_rovers(current_rover)
-		expected = {"rover2"=>[[3,3,"E"],[4,3,"E"],[5,3,"E"],[5,3,"S"],[5,2,"S"],[5,1,"S"],[5,1,"W"],[4,1,"W"],[4,1,"N"],[4,1,"E"],[5,1,"E"]]}
+		expected = {"rover1"=>[[1,2,"N"],[1,2,"W"],[0,2,"W"],[0,2,"S"],[0,1,"S"],[0,1,"E"],[1,1,"E"],[1,1,"N"],[1,2,"N"],[1,3,"N"]]}
 		assert_equal(expected, actual)
 	end
 end

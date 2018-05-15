@@ -29,12 +29,17 @@ class Controller
                   route_hash[current_rover.name].push(new_coordinates + [current_rover.direction])
                   current_rover.position = new_coordinates
               # puts "This is the route_hash in move_rovers when M #{route_hash}"
-
+                else
+                  route_hash[current_rover.name].push(new_coordinates + [current_rover.direction] + [404])
+                  current_rover.position = new_coordinates
                 end
             else
               new_direction = current_rover.rotate(r_move)
-              p new_direction
-              route_hash[current_rover.name].push(current_rover.position + [new_direction])
+                if @grid.check_move(current_rover.position) == false
+                  route_hash[current_rover.name].push(current_rover.position + [new_direction] + [404])
+                else
+                  route_hash[current_rover.name].push(current_rover.position + [new_direction])
+                end
               current_rover.direction = new_direction
               # puts "This is the route_hash in move_rovers when L or R #{route_hash}"
           end

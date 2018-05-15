@@ -214,13 +214,23 @@ class Mars_test < Minitest::Test
 	# 	assert_equal(Hash, actual.class)
 	# end
 
-	def test_controller_move_rovers_1
+	def test_controller_move_rovers_M_only
 		number_of_rovers = 1
-		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"]}
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "MMM"]}
 		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
 		current_rover = controller1.rovers["rover1"]
 		actual = controller1.move_rovers(current_rover)
-		expected = {"rover1"=>[[1,2,"N"],[0,2,"W"],[0,1,"S"],[1,1,"E"],[1,2,"N"],[1,3,"N"]]}
+		expected = {"rover1"=>[[1,2,"N"],[1,3,"N"],[1,4,"N"],[1,5,"N"]]}
 		assert_equal(expected, actual)
 	end
+
+	# def test_controller_move_rovers_1
+	# 	number_of_rovers = 1
+	# 	controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"]}
+	# 	controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
+	# 	current_rover = controller1.rovers["rover1"]
+	# 	actual = controller1.move_rovers(current_rover)
+	# 	expected = {"rover1"=>[[1,2,"N"],[0,2,"W"],[0,1,"S"],[1,1,"E"],[1,2,"N"],[1,3,"N"]]}
+	# 	assert_equal(expected, actual)
+	# end
 end

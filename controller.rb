@@ -24,7 +24,7 @@ class Controller
             when "M"
               new_coordinates = current_rover.move
                 if @grid.check_move(new_coordinates)
-                  route_array[current_rover.name].push(new_coordinates)
+                  route_array.push(new_coordinates)
                 end
           end
           puts "Here are the new coordinates #{new_coordinates}"

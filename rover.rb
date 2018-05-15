@@ -12,7 +12,7 @@ class Rover
   def rotate(rotation)
     compass = ["N","E","S","W"]
     if rotation == "R"
-      new_direction = compass[compass.index(@direction)+1]
+      new_direction = compass[(compass.index(@direction)+1) - compass.length]
     else
       new_direction = compass[compass.index(@direction)-1]
     end

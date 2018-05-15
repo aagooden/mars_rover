@@ -16,10 +16,13 @@ class Controller
   end
 
   def move_rovers(current_rover)
+    puts "This is current_rover name from move_rovers #{current_rover.name}"
     route_hash = {}
     route_hash[current_rover.name] = []
     route_hash[current_rover.name].push(current_rover.position + [current_rover.direction])
+    puts "This is current_rover moves from move_rovers #{current_rover.moves}"
       rover_moves = current_rover.moves.each_char.to_a
+      puts "This is moves array #{rover_moves}"
       rover_moves.each do |r_move|
           case r_move
             when "M"
@@ -27,10 +30,14 @@ class Controller
                 if @grid.check_move(new_coordinates)
                   route_hash[current_rover.name].push(new_coordinates + [current_rover.direction])
                   current_rover.position = new_coordinates
+              puts "This is the route_hash in move_rovers when M #{route_hash}"
                 end
             else
               new_direction = current_rover.rotate(r_move)
+              p new_direction
               route_hash[current_rover.name].push(current_rover.position + [new_direction])
+              current_rover.direction = new_direction
+              puts "This is the route_hash in move_rovers when L or R #{route_hash}"
           end
       end
     return route_hash

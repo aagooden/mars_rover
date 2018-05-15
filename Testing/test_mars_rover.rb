@@ -234,4 +234,14 @@ class Mars_test < Minitest::Test
 		expected = {"rover1"=>[[1,2,"N"],[1,2,"W"],[0,2,"W"],[0,2,"S"],[0,1,"S"],[0,1,"E"],[1,1,"E"],[1,1,"N"],[1,2,"N"],[1,3,"N"]]}
 		assert_equal(expected, actual)
 	end
+
+	def test_controller_move_rovers_2_rovers
+		number_of_rovers = 1
+		controller_hash = {"grid_size"=>[5, 5], "move1"=>[[1, 2], "N", "LMLMLMLMM"], "move2"=>[[3, 3], "E", "MMRMMRMRRM"]}
+		controller1 = Controller.new("controller1", controller_hash, number_of_rovers)
+		current_rover = controller1.rovers["rover1"]
+		actual = controller1.move_rovers(current_rover)
+		expected = {"rover1"=>[[1,2,"N"],[1,2,"W"],[0,2,"W"],[0,2,"S"],[0,1,"S"],[0,1,"E"],[1,1,"E"],[1,1,"N"],[1,2,"N"],[1,3,"N"]]}
+		assert_equal(expected, actual)
+	end
 end

@@ -1,5 +1,7 @@
 
 <!--<img class="resize" src="/some_picture_.jpg"> -->
+<h3><%=session[:rover_routes]%></h3>
+
 
 <%rover1_route = session[:rover_routes]["rover1"]%>
 <%rover2_route = session[:rover_routes]["rover2"]%>
@@ -13,3 +15,47 @@
 <h2>The starting position for Rover #2 is <%=rover2_route[0]%></h2>
 <h3>The path Rover #2 took is <%=rover2_route%></h3>
 <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
+
+<canvas id="myCanvas" width="500vw" height="500vh" style="border:1px solid #d3d3d3;"</canvas>
+
+<script>
+  var grid_string = "<%= session[:grid_size].to_json %>"
+  var grid_size = JSON.parse(grid_string);
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+
+
+
+  function drawGrid(grid_size,ctx) {
+    var img = new Image();
+    ctx.drawImage(img, 0, 0);
+    img.src = 'https://upload.wikimedia.org/wikipedia/commons/0/06/Noctis_Labyrinthus_Viking_1_1980.png';
+    var row_width = 500 / grid_size[0];
+    var column_width = 500 / grid_size[0];
+
+    var i;
+    for (i = 0; i < grid_size[0]; i++) {
+    ctx.moveTo(row_width * i, 0);
+    ctx.lineTo(row_width * i, 499);
+    }
+
+    var i;
+    for (i = 0; i < grid_size[0]; i++) {
+      ctx.moveTo(0, column_width * i);
+      ctx.lineTo(499, column_width * i);
+    }
+
+    ctx.lineWidth=2;
+    ctx.strokeStyle="green";
+    ctx.strokeRect(1,1,499,499);
+    ctx.stroke();
+  }
+
+  drawGrid(grid_size,ctx);
+
+</script>
+
+var i;
+for (i = 0; i < cars.length; i++) {
+    text += cars[i] + "<br>";
+}

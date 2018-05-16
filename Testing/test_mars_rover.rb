@@ -303,12 +303,12 @@ class Mars_test < Minitest::Test
 		assert_equal([0,4], checked_move)
 	end
 
-	# def test_grid_pac_man_move_2
-	# 	grid = Grid.new("grid1",[5,5])
-	# 	possible_coordinates = [4,6]
-	# 	checked_move = grid.check_move(possible_coordinates)
-	# 	assert_equal(false, checked_move)
-	# end
+	def test_grid_pac_man_move_2
+		grid = Grid.new("grid1",[5,5])
+		possible_coordinates = [4,6]
+		checked_move = grid.pac_man_move(possible_coordinates)
+		assert_equal([4,0], checked_move)
+	end
 	#
 	# def test_grid_pac_man_move_3
 	# 	grid = Grid.new("grid1",[5,5])

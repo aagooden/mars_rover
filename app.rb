@@ -37,6 +37,7 @@ post "/mission_info" do
 		rover_routes["rover#{x}"] = rover_route
 	end
 	session[:rover_routes] = rover_routes
+	p session[:rover_routes]
 	erb :mission
 end
 

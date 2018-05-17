@@ -8,7 +8,7 @@
 
 <body onload="create_div()">
 
-<!-- <img id="rover_image" style="display: none;" src="red-rover.png"> -->
+  <img id="rover_image" style="display: none;" src="red-rover.png">
 
   <!-- <img src="/mars_surface.png" id="mars_pic"> -->
   <!--<img class="resize" src="/some_picture_.jpg"> -->
@@ -31,9 +31,9 @@
   <h3>The path Rover #2 took is <%=rover2_route%></h3>
   <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
 
-  <div id = "load_div"></div>
+  <!-- <div id = "load_div"></div> -->
 
-  <div id = "placehere"></div>
+  <!-- <div id = "placehere"></div> -->
 
   <canvas  id="myCanvas" class="mars_pic" width="500vw" height="500vh" style="border:1px solid #d3d3d3;"</canvas>
 </body>
@@ -66,7 +66,16 @@
   // ctx.drawImage(img, 0, 0);
 
 
-    function drawGrid(grid_size,ctx) {
+    function sleep(milliseconds) {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+          break;
+        }
+      }
+    }
+
+    function drawGrid(grid_size) {
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
       var row_width = 500 / grid_size[0];
@@ -86,41 +95,36 @@
 
         ctx.stroke();
       }
-      drawRover1(rover1_array);
     }
 
-    function drawRover1(rover1_route, ctx){
+    function drawRover1(rover1_array){
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
       var x_multiplyer = 500 / grid_size[0];
       var y_multiplyer = 500 / grid_size[1];
-
+      var img = document.getElementById('rover_image');
       rover1_array.forEach(function(position) {
-
-        var img = document.getElementById('rover_image');
         ctx.drawImage(img, position[0]*x_multiplyer, position[1]*y_multiplyer , 50, 50);
-
+        sleep(500);
       });
 
     }
   // };
     function create_div(){
       // var load_div = document.createElement("div");
-      var load_div = document.createElement('div');
+      // var load_div = document.createElement('div');
       // load_div.setAttribute("id", "loaded");
-      var element = document.getElementById('load_div');
-      load_div.appendChild(element);
+      // var element = document.getElementById('load_div');
+      // load_div.appendChild(element);
 
-      var elem = document.createElement("img");
-      elem.setAttribute("src", "red-rover.png");
-      elem.setAttribute("style", "display: none");
-      elem.setAttribute("id", "rover_image");
-      document.getElementById("placehere").appendChild(elem);
-
-  drawGrid(grid_size);
+      // var elem = document.createElement("img");
+      // elem.setAttribute("src", "red-rover.png");
+      // elem.setAttribute("style", "display: none");
+      // elem.setAttribute("id", "rover_image");
+      // document.getElementById("placehere").appendChild(elem);
+      drawRover1(rover1_array);
+      drawGrid(grid_size);
     }
-
-  // window.onload = create_div();
 
 
 </script>

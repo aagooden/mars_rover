@@ -29,14 +29,26 @@
   <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
 
   <canvas  id="myCanvas" class="mars_pic" width="500vw" height="500vh" style="border:1px solid #d3d3d3;"</canvas>
-    
+
 <script>
-  var grid_string = "<%= session[:grid_size].to_json %>"
-  var grid_size = JSON.parse(grid_string);
 
-  var rover1_route = JSON.stringify(JSON.parse('<%= rover1_route.to_json %>'))
+var grid_string = '<%= session[:grid_size].to_json %>';
+var grid_size = JSON.parse(grid_string);
 
-  var rover1_route = JSON.stringify(JSON.parse('<%= rover2_route.to_json %>'))
+var rover1_string = '<%= rover1_route.to_json %>';
+var rover1_array = JSON.parse(rover1_string);
+
+var rover2_string = '<%= rover2_route.to_json %>';
+var rover2_array = JSON.parse(rover2_string);
+
+  // var grid_string = "<%= session[:grid_size].to_json %>";
+  // var grid_size = JSON.parse(grid_string);
+  //
+  // var string_route = JSON.stringify('<%= rover1_route %>');
+  // var rover1_route = JSON.parse(string_route);
+  //
+  // var string_route = JSON.stringify('<%= rover2_route %>');
+  // var rover2_route = JSON.parse(string_route);
 
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
@@ -70,12 +82,25 @@
     }
   }
 
-  // function drawGrid(grid_size,ctx){
-  //   var img = new Image();
-  //   img.src = 'https://upload.wikimedia.org/wikipedia/commons/0/06/Noctis_Labyrinthus_Viking_1_1980.png';
-  //   ctx.drawImage(img, 20, 20);
-  //   // ctx.drawImage(image, dx, dy, dWidth, dHeight);
-  // }
-    drawGrid(grid_size,ctx);
+  function drawRover1(rover1_route, ctx){
+    // rover1_route.forEach(function(position) {
+    //   console.log(position);
+    // });
+
+    var array1 = rover1_route;
+
+array1.forEach(function(element) {
+  console.log(element);
+});
+
+
+    // var img = new Image();
+    // img.src = 'https://upload.wikimedia.org/wikipedia/commons/0/06/Noctis_Labyrinthus_Viking_1_1980.png';
+    // ctx.drawImage(img, 20, 20);
+    // ctx.drawImage(image, dx, dy, dWidth, dHeight);
+  }
+
+  drawGrid(grid_size,ctx);
+  drawRover1(rover1_array, ctx);
 
 </script>

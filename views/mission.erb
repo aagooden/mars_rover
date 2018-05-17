@@ -98,15 +98,37 @@
     }
 
     function drawRover1(rover1_array){
-      var c = document.getElementById("myCanvas");
-      var ctx = c.getContext("2d");
+      // var c = document.getElementById("myCanvas");
+      // var ctx = c.getContext("2d");
       var x_multiplyer = 500 / grid_size[0];
       var y_multiplyer = 500 / grid_size[1];
-      var img = document.getElementById('rover_image');
-      rover1_array.forEach(function(position) {
-        ctx.drawImage(img, position[0]*x_multiplyer, position[1]*y_multiplyer , 50, 50);
-        sleep(500);
-      });
+      // var img = document.getElementById('rover_image');
+      // rover1_array.forEach(function(position) {
+      //   ctx.drawImage(img, position[0]*x_multiplyer, position[1]*y_multiplyer , 50, 50);
+      //   sleep(500);
+
+
+      var imgTag = new Image();
+      var canvas = document.getElementById('myCanvas');
+      var ctx = canvas.getContext("2d");
+      var x = rover1_array[0][0]*x_multiplyer;
+      var y = rover1_array[0][1]*y_multiplyer;
+      // var x = canvas.width;
+      // var y = 0;
+
+      imgTag.onload = animate;
+      imgTag.src = "red-rover.png";   // load image
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas
+        ctx.drawImage(imgTag, x, y, 50, 50);                       // draw image at current position
+        x -= 1;
+        if (x > 50) requestAnimationFrame(animate)
+          drawGrid(grid_size);      // loop
+      }
+
+
+      // });
 
     }
   // };
@@ -122,8 +144,9 @@
       // elem.setAttribute("style", "display: none");
       // elem.setAttribute("id", "rover_image");
       // document.getElementById("placehere").appendChild(elem);
-      drawRover1(rover1_array);
       drawGrid(grid_size);
+      drawRover1(rover1_array);
+
     }
 
 

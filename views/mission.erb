@@ -41,14 +41,6 @@ var rover1_array = JSON.parse(rover1_string);
 var rover2_string = '<%= rover2_route.to_json %>';
 var rover2_array = JSON.parse(rover2_string);
 
-  // var grid_string = "<%= session[:grid_size].to_json %>";
-  // var grid_size = JSON.parse(grid_string);
-  //
-  // var string_route = JSON.stringify('<%= rover1_route %>');
-  // var rover1_route = JSON.parse(string_route);
-  //
-  // var string_route = JSON.stringify('<%= rover2_route %>');
-  // var rover2_route = JSON.parse(string_route);
 
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
@@ -63,6 +55,8 @@ var rover2_array = JSON.parse(rover2_string);
 
 
   function drawGrid(grid_size,ctx) {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
     var row_width = 500 / grid_size[0];
     var column_width = 500 / grid_size[0];
 
@@ -83,24 +77,22 @@ var rover2_array = JSON.parse(rover2_string);
   }
 
   function drawRover1(rover1_route, ctx){
-    // rover1_route.forEach(function(position) {
-    //   console.log(position);
-    // });
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var x_multiplyer = 500 / grid_size[0];
+    var y_multiplyer = 500 / grid_size[1];
 
-    var array1 = rover1_route;
+    rover1_array.forEach(function(position) {
 
-array1.forEach(function(element) {
-  console.log(element);
-});
+      var img = new Image();
+        img.src = '/rover.png';
+        img.onload = function() {
+          ctx.drawImage(img, position[0]*x_multiplyer, position[1]*y_multiplyer , 50, 50);
+        };
+  });
+}
 
-
-    // var img = new Image();
-    // img.src = 'https://upload.wikimedia.org/wikipedia/commons/0/06/Noctis_Labyrinthus_Viking_1_1980.png';
-    // ctx.drawImage(img, 20, 20);
-    // ctx.drawImage(image, dx, dy, dWidth, dHeight);
-  }
-
-  drawGrid(grid_size,ctx);
-  drawRover1(rover1_array, ctx);
+  drawGrid(grid_size);
+  drawRover1(rover1_array);
 
 </script>

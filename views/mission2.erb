@@ -68,8 +68,8 @@
   var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
   var all_rovers_array = [];
   var rover_array_counter = 0;
-  var x_multiplyer = 500 / grid_size[0];
-  var y_multiplyer = 500 / grid_size[1];
+  var x_multiplyer = 500 / (grid_size[0] +1);
+  var y_multiplyer = 500 / (grid_size[1] +1);
 
   for(var index in all_rovers_hash) {
     all_rovers_array.push(all_rovers_hash[index]);
@@ -95,8 +95,8 @@
     ctx.lineWidth=2;
     ctx.strokeStyle="green";
     ctx.strokeRect(2,2,498,498);
-    var row_width = 500 / grid_size[0] + 1;
-    var column_width = 500 / grid_size[0] + 1;
+    var row_width = 500 / (grid_size[0] + 1);
+    var column_width = 500 / (grid_size[0] + 1);
     var i;
     for (i = 0; i < grid_size[0] + 1; i++) {
     ctx.moveTo(row_width * i, 0);
@@ -119,33 +119,37 @@ current_rover_array = all_rovers_array[rover_array_counter];
   }
 
 
-  var counter = 0
+  var iterateRoverArray_counter = 0
   function iterateRoverArray() {
-    if (current_rover_array.length == counter +1) {
+    if (current_rover_array.length == iterateRoverArray_counter +1) {
       setTimeout(get_next_rover_array,2000);
     }
 
-    position1_array = current_rover_array[counter];
-    position2_array = current_rover_array[counter + 1];
+    position1_array = current_rover_array[iterateRoverArray_counter];
+    position2_array = current_rover_array[iterateRoverArray_counter + 1];
     console.log(`position1_array is ${position1_array}`);
     console.log(`position2_array is ${position2_array}`);
 
     if(position1_array[2] != position2_array[2]) {
       console.log("It's a rotation");
-      var x = (position2_array[0] * x_multiplyer);
-      var y = ((grid_size[1] - position2_array[1]) * y_multiplyer)
+      var x = (position2_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
+      var y = (((grid_size[1]) - position2_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
+      console.log(`x is currently ${x}`);
+      console.log(`y is currently ${y}`);
       var direction = position2_array[2];
       var loops = 1;
       console.log(`direction from rotation is ${direction}`)
     }else{
       console.log("It's a move");
-      var x = (position1_array[0] * x_multiplyer);
-      var y = ((grid_size[1] - position1_array[1]) * y_multiplyer)
+      var x = (position1_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
+      var y = (((grid_size[1]) - position1_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
       var  direction = position1_array[2];
       var loops = x_multiplyer;
+      console.log(`x is currently ${x}`);
+      console.log(`y is currently ${y}`);
       console.log(`direction from move is ${direction}`)
     }
-    counter += 1;
+    iterateRoverArray_counter += 1;
     drawRover(x,y,direction,loops);
 
   }

@@ -72,6 +72,9 @@
   var x_multiplyer = 500 / (grid_size[0] +1);
   var y_multiplyer = 500 / (grid_size[1] +1);
 
+  var line_x_offset = 0;
+  var line_y_offset = 0;
+
   for(var index in all_rovers_hash) {
     all_rovers_array.push(all_rovers_hash[index]);
   }
@@ -79,6 +82,8 @@
   var history_canvas = document.getElementById('historyCanvas');
   var history_ctx = history_canvas.getContext("2d");
 
+
+  var line_color = "red";
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
 
@@ -86,7 +91,7 @@
   function drawGrid(grid_size) {
     var c = document.getElementById("grid_canvas");
     var ctx = c.getContext("2d");
-    ctx.lineWidth=2;
+    ctx.lineWidth=1;
     ctx.strokeStyle="green";
     ctx.strokeRect(2,2,498,498);
     var row_width = 500 / (grid_size[0] + 1);
@@ -118,6 +123,9 @@ function get_next_rover_array() {
   function iterateRoverArray() {
     if (current_rover_array.length == iterateRoverArray_counter +1) {
       setTimeout(get_next_rover_array,2000);
+      line_color = "blue";
+      line_x_offset = 3;
+      line_y_offset = 3;
     }
 
     position1_array = current_rover_array[iterateRoverArray_counter];
@@ -134,28 +142,28 @@ function get_next_rover_array() {
       var direction = position2_array[2];
       var loops = 1;
 
-      setTimeout(draw_rotation_image,50);
-
-      function draw_rotation_image() {
-        var history_img = new Image;
-        switch(direction) {
-          case "N":
-              history_img.src = "/red-rover.png"
-              break;
-          case "E":
-              history_img.src = "/red-rover_E.png"
-              break;
-          case "S":
-              history_img.src = "/red-rover_S.png"
-              break;
-          case "W":
-              history_img.src = "/red-rover_W.png"
-              break;
-        }
-        var history_canvas = document.getElementById('historyCanvas');
-        var history_ctx = history_canvas.getContext("2d");
-        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-      }
+      // setTimeout(draw_rotation_image,50);
+      //
+      // function draw_rotation_image() {
+      //   var history_img = new Image;
+      //   switch(direction) {
+      //     case "N":
+      //         history_img.src = "/red-rover.png"
+      //         break;
+      //     case "E":
+      //         history_img.src = "/red-rover_E.png"
+      //         break;
+      //     case "S":
+      //         history_img.src = "/red-rover_S.png"
+      //         break;
+      //     case "W":
+      //         history_img.src = "/red-rover_W.png"
+      //         break;
+      //   }
+      //   var history_canvas = document.getElementById('historyCanvas');
+      //   var history_ctx = history_canvas.getContext("2d");
+      //   history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+      // }
 
 
 
@@ -166,28 +174,28 @@ function get_next_rover_array() {
       var  direction = position1_array[2];
       var loops = x_multiplyer;
 
-      setTimeout(draw_move_image,50);
-
-      function draw_move_image() {
-        var history_img = new Image;
-        switch(direction) {
-          case "N":
-              history_img.src = "/red-rover.png"
-              break;
-          case "E":
-              history_img.src = "/red-rover_E.png"
-              break;
-          case "S":
-              history_img.src = "/red-rover_S.png"
-              break;
-          case "W":
-              history_img.src = "/red-rover_W.png"
-              break;
-        }
-        var history_canvas = document.getElementById('historyCanvas');
-        var history_ctx = history_canvas.getContext("2d");
-        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-      }
+      // setTimeout(draw_move_image,50);
+      //
+      // function draw_move_image() {
+      //   var history_img = new Image;
+      //   switch(direction) {
+      //     case "N":
+      //         history_img.src = "/red-rover.png"
+      //         break;
+      //     case "E":
+      //         history_img.src = "/red-rover_E.png"
+      //         break;
+      //     case "S":
+      //         history_img.src = "/red-rover_S.png"
+      //         break;
+      //     case "W":
+      //         history_img.src = "/red-rover_W.png"
+      //         break;
+      //   }
+      //   var history_canvas = document.getElementById('historyCanvas');
+      //   var history_ctx = history_canvas.getContext("2d");
+      //   history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+      // }
 
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);
@@ -253,10 +261,13 @@ function get_next_rover_array() {
 
 
       // var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)])&& (lor.length == 6) ?  lor :co(lor);})('');
-      history_ctx.strokeStyle="blue";
-      history_ctx.moveTo(previous_x + 0.25 * x_multiplyer, previous_y + 0.25 * y_multiplyer);
-      history_ctx.lineTo(x + 0.25 * x_multiplyer, y + 0.25 * y_multiplyer);
+
+      history_ctx.beginPath();
+      history_ctx.strokeStyle=line_color;
+      history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * x_multiplyer, (previous_y + line_y_offset) + 0.25 * y_multiplyer);
+      history_ctx.lineTo((x + line_x_offset) + 0.25 * x_multiplyer, (y + line_y_offset) + 0.25 * y_multiplyer);
       history_ctx.stroke();
+      history_ctx.closePath();
 
 
       console.log(`Animation counter is ${animation_counter}`);

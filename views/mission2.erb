@@ -1,0 +1,150 @@
+<style>
+  .mars_pic {
+    background-image: url("/mars_surface.png");
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+  }
+
+  #wrapper{
+    position:relative;
+    width:500px;
+    height:500px;
+}
+#grid_canvas,#roverCanvas{
+    position:absolute; top:0px; left:0px;
+    width:500px;
+    height:500px;
+}
+</style>
+
+<body onload="create_div()">
+
+  <img id="rover_image" style="display: none;" src="red-rover.png">
+
+
+  <!-- <img src="/mars_surface.png" id="mars_pic"> -->
+  <!--<img class="resize" src="/some_picture_.jpg"> -->
+  <h3><%=session[:rover_routes]%></h3>
+  <%=rover1_route = session[:rover_routes]["rover1"]%>
+  <%=rover1_route = session[:rover_routes]["rover2"]%>
+
+
+
+  <%rover1_route = session[:rover_routes]["rover1"]%>
+  <%rover2_route = session[:rover_routes]["rover2"]%>
+
+  <h2>The starting position for Rover #1 is <%=rover1_route[0]%></h2>
+  <h3>The path Rover #1 took is <%=rover1_route%></h3>
+  <h2>The ending position for Rover #1 is <%=rover1_route.last%></h2><br><br>
+
+
+
+  <h2>The starting position for Rover #2 is <%=rover2_route[0]%></h2>
+  <h3>The path Rover #2 took is <%=rover2_route%></h3>
+  <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
+
+  <!-- <div id = "load_div"></div> -->
+
+  <!-- <div id = "placehere"></div> -->
+  <div id="wrapper">
+    <canvas  id="grid_canvas" class="mars_pic" width="500vw" height="500vh"></canvas>
+    <canvas  id="roverCanvas" width="500vw" height="500vh"></canvas>
+  </div>
+
+</body>
+
+<script>
+  // var check = document.getElementById('loaded');
+  // if (check == null) {
+    console.log("You are the coolest dude!");
+  var grid_string = '<%= session[:grid_size].to_json %>';
+  var grid_size = JSON.parse(grid_string);
+  var rover1_string = '<%= rover1_route.to_json %>';
+  var rover1_array = JSON.parse(rover1_string);
+  var rover2_string = '<%= rover2_route.to_json %>';
+  var rover2_array = JSON.parse(rover2_string);
+  // var c = document.getElementById("myCanvas");
+  // var ctx = c.getContext("2d");
+  function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        break;
+      }
+    }
+  }
+  function drawGrid(grid_size) {
+    var c = document.getElementById("grid_canvas");
+    var ctx = c.getContext("2d");
+    ctx.lineWidth=2;
+    ctx.strokeStyle="green";
+    ctx.strokeRect(2,2,498,498);
+    var row_width = 500 / grid_size[0];
+    var column_width = 500 / grid_size[0];
+    var i;
+    for (i = 0; i < grid_size[0]; i++) {
+    ctx.moveTo(row_width * i, 0);
+    ctx.lineTo(row_width * i, 499);
+    ctx.stroke();
+    }
+    var i;
+    for (i = 0; i < grid_size[0]; i++) {
+      ctx.moveTo(0, column_width * i);
+      ctx.lineTo(499, column_width * i);
+      ctx.stroke();
+    }
+  }
+  var counter = 0
+  function iterateRoverArray(rover1_array,counter) {
+    if (counter != rover1_array.length) {
+      var position_array = rover1_array[counter];
+      drawRover1(rover1_array, counter, position_array);
+    }
+  }
+  function drawRover1(rover1_array, counter, position_array){
+    var x_multiplyer = 500 / grid_size[0];
+    var y_multiplyer = 500 / grid_size[1];
+    var imgTag = new Image();
+    var rover_canvas = document.getElementById('roverCanvas');
+    var ctx = rover_canvas.getContext("2d");
+    var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
+    var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
+    imgTag.onload = animate;
+    imgTag.src = "/red-rover.png";   // load image
+
+    function animate() {
+      ctx.clearRect(0, 0, 500, 500);  // clear canvas
+      ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);                       // draw image at current position
+      switch(position_array[2]) {
+    case "N":
+        y -= 5
+        break;
+    case "E":
+        x -=5
+        break;
+    case "S":
+        y +=5
+        break;
+    case "W":
+        x +=5
+        break;
+      }
+      // x -= 5;
+      // if (( y < 0 || x < 0) || (x > canvas.width || y > canvas.height)) {
+      if (y == rover1_array[counter + 1][1]*y_multiplyer) {
+        counter += 1;
+        // drawGrid(grid_size);
+        iterateRoverArray(rover1_array,counter);
+      } else {
+        // console.log(y);
+        window.requestAnimationFrame(animate)
+        // drawGrid(grid_size);
+      }
+    }
+  }
+  function create_div(){
+      drawGrid(grid_size);
+      //    drawRover1(rover1_array);
+      iterateRoverArray(rover1_array,counter);
+      }
+</script>

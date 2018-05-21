@@ -36,7 +36,8 @@
   <!-- <div id = "placehere"></div> -->
 
   <canvas  id="myCanvas" class="mars_pic" width="500vw" height="500vh"</canvas>
-  <canvas  id="roverCanvas" class="mars_pic" width="500vw" height="500vh"</canvas>
+  <canvas  id="grid_canvas" width="500vw" height="500vh"</canvas>
+
 </body>
 
 <script>
@@ -54,20 +55,6 @@
   var rover2_string = '<%= rover2_route.to_json %>';
   var rover2_array = JSON.parse(rover2_string);
 
-
-  // var c = document.getElementById("myCanvas");
-  // var ctx = c.getContext("2d");
-
-
-
-  function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
-        break;
-      }
-    }
-  }
 
   function drawGrid(grid_size) {
     var c = document.getElementById("myCanvas");
@@ -95,67 +82,96 @@
       ctx.stroke();
     }
   }
+
   var counter = 0
   function iterateRoverArray(rover1_array,counter) {
+    console.log("This is the iterate function");
     if (counter != rover1_array.length) {
       var position_array = rover1_array[counter];
       drawRover1(rover1_array, counter, position_array);
+      console.log(position_array);
     }
   }
 
   function drawRover1(rover1_array, counter, position_array){
-    var x_multiplyer = 500 / grid_size[0];
-    var y_multiplyer = 500 / grid_size[1];
+    console.log("This is the drawRover function");
+      var x_multiplyer = 500 / grid_size[0];
+      var y_multiplyer = 500 / grid_size[1];
 
-    var imgTag = new Image();
-    var canvas = document.getElementById('myCanvas');
-    var ctx = canvas.getContext("2d");
-    var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
-    var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
-
-
-    imgTag.onload = animate;
-    imgTag.src = "/red-rover.png";   // load image
-
-    startAnimating(500);
-    function startAnimating(fps) {
-        fpsInterval = 1000 / fps;
-        then = window.performance.now();
-        startTime = then;
-        console.log(startTime);
-        animate();
-    }
+      var imgTag = new Image();
+      var canvas = document.getElementById('grid_canvas');
+      var ctx = canvas.getContext("2d");
+      var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
+      var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
 
 
-    function animate(newtime) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas
-      ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);                       // draw image at current position
+      imgTag.onload = animate;
+      imgTag.src = "/red-rover.png";   // load image
 
-      switch(position_array[2]) {
-    case "N":
-        y -= 1
-        break;
-    case "E":
-        x -=1
-        break;
-    case "S":
-        y +=1
-        break;
-    case "W":
-        x +=1
-        break;
-      }
+      // startAnimating(500);
+      // function startAnimating(fps) {
+      //     fpsInterval = 1000 / fps;
+      //     then = window.performance.now();
+      //     startTime = then;
+      //     console.log(startTime);
+      //     animate();
+      // }
 
-      // x -= 5;
-      // if (( y < 0 || x < 0) || (x > canvas.width || y > canvas.height)) {
-      if (y == rover1_array[counter + 1][1]*y_multiplyer) {
-        counter += 1;
-        drawGrid(grid_size);
-        iterateRoverArray(rover1_array,counter);
-      } else {
-        console.log(y);
-        window.requestAnimationFrame(animate)
-        drawGrid(grid_size);
+
+      function animate() {
+        console.log("Now animating in the animate function");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas
+        ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);   // draw image at current position
+
+        switch(position_array[2]) {
+      case "N":
+          y -= 1;
+          // if(y < 0 || y > canvas.height){
+          //   go_back_to_iterate();
+          // }else{
+          //   draw_again();
+          // }
+
+          break;
+      case "E":
+          x -=1
+          // if(x < 0 || x > canvas.height){
+          //   go_back_to_iterate();
+          // }else{
+          //   draw_again();
+          // }
+          break;
+      case "S":
+          y +=1
+          // if(y < 0 || y > canvas.height){
+          //   go_back_to_iterate();
+          // }else{
+          //   draw_again();
+          // }
+          break;
+      case "W":
+          x +=1
+          // if(x < 0 || x > canvas.height){
+          //   go_back_to_iterate();
+          // }else{
+          //   draw_again();
+          // }
+          break;
+        }
+
+        // x -= 5;
+        if (( y < 0 || x < 0) || (x > canvas.width || y > canvas.height)) {
+        // if (y == rover1_array[counter + 1][1]*y_multiplyer) {
+        // function go_back_to_iterate() {
+          counter += 1;
+          drawGrid(grid_size);
+          iterateRoverArray(rover1_array,counter);
+        // }
+        }else{
+        // function draw_again() {
+          window.requestAnimationFrame(animate)
+
+        // }
       }
     }
   }
@@ -163,6 +179,7 @@
 
   function create_div(){
       drawGrid(grid_size);
+      console.log(grid_size);
       //    drawRover1(rover1_array);
       iterateRoverArray(rover1_array,counter);
       }

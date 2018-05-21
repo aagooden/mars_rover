@@ -38,7 +38,7 @@ post "/mission_info" do
 	end
 	session[:rover_routes] = rover_routes
 	p session[:rover_routes]
-	erb :mission
+	erb :mission2
 end
 
 # @rovers["rover#{x}"] = Rover.new

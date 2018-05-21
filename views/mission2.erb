@@ -10,7 +10,7 @@
     width:500px;
     height:500px;
 }
-#grid_canvas,#roverCanvas{
+#grid_canvas,#roverCanvas,#historyCanvas{
     position:absolute; top:0px; left:0px;
     width:500px;
     height:500px;
@@ -49,6 +49,7 @@
   <div id="wrapper">
     <canvas  id="grid_canvas" class="mars_pic" width="500vw" height="500vh"></canvas>
     <canvas  id="roverCanvas" width="500vw" height="500vh"></canvas>
+    <canvas  id="historyCanvas" width="500vw" height="500vh"></canvas>
   </div>
 
 </body>
@@ -74,6 +75,9 @@
   for(var index in all_rovers_hash) {
     all_rovers_array.push(all_rovers_hash[index]);
   }
+
+  var history_canvas = document.getElementById('historyCanvas');
+  var history_ctx = history_canvas.getContext("2d");
 
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
@@ -109,6 +113,28 @@ current_rover_array = all_rovers_array[rover_array_counter];
   iterateRoverArray();
   }
 
+function image_trail(direction){
+    var history_img = new Image;
+  switch(direction) {
+    case "N":
+        history_img.src = "/red-rover.png"
+        break;
+    case "E":
+        history_img.src = "/red-rover_E.png"
+        break;
+    case "S":
+        history_img.src = "/red-rover_S.png"
+        break;
+    case "W":
+        history_img.src = "/red-rover_W.png"
+        break;
+
+    return history_img;
+  }
+}
+
+
+
 
   var iterateRoverArray_counter = 0
   function iterateRoverArray() {
@@ -129,6 +155,24 @@ current_rover_array = all_rovers_array[rover_array_counter];
       console.log(`y is currently ${y}`);
       var direction = position2_array[2];
       var loops = 1;
+
+      var history_img = new Image;
+      switch(direction) {
+        case "N":
+            history_img.src = "/red-rover.png"
+            break;
+        case "E":
+            history_img.src = "/red-rover_E.png"
+            break;
+        case "S":
+            history_img.src = "/red-rover_S.png"
+            break;
+        case "W":
+            history_img.src = "/red-rover_W.png"
+            break;
+      }
+      // history_img.src = image_trail(direction);
+      history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
       console.log(`direction from rotation is ${direction}`)
     }else{
       console.log("It's a move");
@@ -136,6 +180,25 @@ current_rover_array = all_rovers_array[rover_array_counter];
       var y = (((grid_size[1]) - position1_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
       var  direction = position1_array[2];
       var loops = x_multiplyer;
+
+      var history_img = new Image;
+      switch(direction) {
+        case "N":
+            history_img.src = "/red-rover.png"
+            break;
+        case "E":
+            history_img.src = "/red-rover_E.png"
+            break;
+        case "S":
+            history_img.src = "/red-rover_S.png"
+            break;
+        case "W":
+            history_img.src = "/red-rover_W.png"
+            break;
+      }
+      // history_img.src = image_trail(direction);
+      history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);
       console.log(`direction from move is ${direction}`)
@@ -161,6 +224,16 @@ current_rover_array = all_rovers_array[rover_array_counter];
       ctx.clearRect(0, 0, 500, 500);  // clear canvas
       // ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
 
+      if (y < 0){
+        y = rover_canvas.height;
+      } else if(y > rover_canvas.height) {
+        y = 0;
+      } else if (x < 0){
+        x = rover_canvas.width;
+      } else if (x > rover_canvas.width) {
+        x = 0;
+      }
+
       var previous_x = x;
       var previous_y = y;
 
@@ -185,11 +258,15 @@ current_rover_array = all_rovers_array[rover_array_counter];
 
       ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
 
-      ctx.lineWidth=2;
-      ctx.strokeStyle="blue";
-      ctx.moveTo(previous_x + 0.25 * x_multiplyer, previous_y + 0.25 * y_multiplyer);
-      ctx.lineTo(x + 0.25 * x_multiplyer, y + 0.25 * y_multiplyer);
-      ctx.stroke();
+
+      history_ctx.lineWidth=2;
+
+
+      // var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)])&& (lor.length == 6) ?  lor :co(lor);})('');
+      history_ctx.strokeStyle="blue";
+      history_ctx.moveTo(previous_x + 0.25 * x_multiplyer, previous_y + 0.25 * y_multiplyer);
+      history_ctx.lineTo(x + 0.25 * x_multiplyer, y + 0.25 * y_multiplyer);
+      history_ctx.stroke();
 
 
       console.log(`Animation counter is ${animation_counter}`);

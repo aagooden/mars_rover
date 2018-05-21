@@ -30,8 +30,8 @@
 
 
 
-  <%rover1_route = session[:rover_routes]["rover1"]%>
-  <%rover2_route = session[:rover_routes]["rover2"]%>
+  <!-- <%rover1_route = session[:rover_routes]["rover1"]%>
+  <%rover2_route = session[:rover_routes]["rover2"]%> -->
 
   <h2>The starting position for Rover #1 is <%=rover1_route[0]%></h2>
   <h3>The path Rover #1 took is <%=rover1_route%></h3>
@@ -59,20 +59,27 @@
     console.log("You are the coolest dude!");
   var grid_string = '<%= session[:grid_size].to_json %>';
   var grid_size = JSON.parse(grid_string);
+
   var rover1_string = '<%= rover1_route.to_json %>';
   var rover1_array = JSON.parse(rover1_string);
   var rover2_string = '<%= rover2_route.to_json %>';
   var rover2_array = JSON.parse(rover2_string);
+
+  var all_rover_hash = JSON.parse('<%= session[:rover_routes].tojson %>');
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
-  function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
-        break;
-      }
-    }
-  }
+
+
+  // function sleep(milliseconds) {
+  //   var start = new Date().getTime();
+  //   for (var i = 0; i < 1e7; i++) {
+  //     if ((new Date().getTime() - start) > milliseconds){
+  //       break;
+  //     }
+  //   }
+  // }
+
+
   function drawGrid(grid_size) {
     var c = document.getElementById("grid_canvas");
     var ctx = c.getContext("2d");
@@ -95,7 +102,7 @@
     }
   }
   var counter = 0
-  function iterateRoverArray(rover1_array,counter) {
+  function iterateRoverArray() {
     if (counter != rover1_array.length) {
       var position_array = rover1_array[counter];
       drawRover1(rover1_array, counter, position_array);

@@ -106,34 +106,12 @@
   }
 
 
-  function get_next_rover_array() {
-current_rover_array = all_rovers_array[rover_array_counter];
+function get_next_rover_array() {
+  current_rover_array = all_rovers_array[rover_array_counter];
   rover_array_counter += 1
   iterateRoverArray_counter = 0;
   iterateRoverArray();
   }
-
-function image_trail(direction){
-    var history_img = new Image;
-  switch(direction) {
-    case "N":
-        history_img.src = "/red-rover.png"
-        break;
-    case "E":
-        history_img.src = "/red-rover_E.png"
-        break;
-    case "S":
-        history_img.src = "/red-rover_S.png"
-        break;
-    case "W":
-        history_img.src = "/red-rover_W.png"
-        break;
-
-    return history_img;
-  }
-}
-
-
 
 
   var iterateRoverArray_counter = 0
@@ -156,24 +134,31 @@ function image_trail(direction){
       var direction = position2_array[2];
       var loops = 1;
 
-      var history_img = new Image;
-      switch(direction) {
-        case "N":
-            history_img.src = "/red-rover.png"
-            break;
-        case "E":
-            history_img.src = "/red-rover_E.png"
-            break;
-        case "S":
-            history_img.src = "/red-rover_S.png"
-            break;
-        case "W":
-            history_img.src = "/red-rover_W.png"
-            break;
+      setTimeout(draw_rotation_image,50);
+
+      function draw_rotation_image() {
+        var history_img = new Image;
+        switch(direction) {
+          case "N":
+              history_img.src = "/red-rover.png"
+              break;
+          case "E":
+              history_img.src = "/red-rover_E.png"
+              break;
+          case "S":
+              history_img.src = "/red-rover_S.png"
+              break;
+          case "W":
+              history_img.src = "/red-rover_W.png"
+              break;
+        }
+        var history_canvas = document.getElementById('historyCanvas');
+        var history_ctx = history_canvas.getContext("2d");
+        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
       }
-      // history_img.src = image_trail(direction);
-      history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-      console.log(`direction from rotation is ${direction}`)
+
+
+
     }else{
       console.log("It's a move");
       var x = (position1_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
@@ -181,23 +166,28 @@ function image_trail(direction){
       var  direction = position1_array[2];
       var loops = x_multiplyer;
 
-      var history_img = new Image;
-      switch(direction) {
-        case "N":
-            history_img.src = "/red-rover.png"
-            break;
-        case "E":
-            history_img.src = "/red-rover_E.png"
-            break;
-        case "S":
-            history_img.src = "/red-rover_S.png"
-            break;
-        case "W":
-            history_img.src = "/red-rover_W.png"
-            break;
+      setTimeout(draw_move_image,50);
+
+      function draw_move_image() {
+        var history_img = new Image;
+        switch(direction) {
+          case "N":
+              history_img.src = "/red-rover.png"
+              break;
+          case "E":
+              history_img.src = "/red-rover_E.png"
+              break;
+          case "S":
+              history_img.src = "/red-rover_S.png"
+              break;
+          case "W":
+              history_img.src = "/red-rover_W.png"
+              break;
+        }
+        var history_canvas = document.getElementById('historyCanvas');
+        var history_ctx = history_canvas.getContext("2d");
+        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
       }
-      // history_img.src = image_trail(direction);
-      history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
 
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);

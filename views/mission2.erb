@@ -65,9 +65,11 @@
   // var rover2_string = '<%= rover2_route.to_json %>';
   // var rover2_array = JSON.parse(rover2_string);
 
-  var all_rovers_hash = JSON.parse('<%= session[:rover_routes].tojson %>');
+  var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
   var all_rovers_array = [];
   var rover_array_counter = 0;
+  var x_multiplyer = 500 / grid_size[0];
+  var y_multiplyer = 500 / grid_size[1];
 
   for(var index in all_rovers_hash) {
     all_rovers_array.push(all_rovers_hash[index]);
@@ -93,16 +95,16 @@
     ctx.lineWidth=2;
     ctx.strokeStyle="green";
     ctx.strokeRect(2,2,498,498);
-    var row_width = 500 / grid_size[0];
-    var column_width = 500 / grid_size[0];
+    var row_width = 500 / grid_size[0] + 1;
+    var column_width = 500 / grid_size[0] + 1;
     var i;
-    for (i = 0; i < grid_size[0]; i++) {
+    for (i = 0; i < grid_size[0] + 1; i++) {
     ctx.moveTo(row_width * i, 0);
     ctx.lineTo(row_width * i, 499);
     ctx.stroke();
     }
     var i;
-    for (i = 0; i < grid_size[0]; i++) {
+    for (i = 0; i < grid_size[0] + 1; i++) {
       ctx.moveTo(0, column_width * i);
       ctx.lineTo(499, column_width * i);
       ctx.stroke();
@@ -119,59 +121,81 @@ current_rover_array = all_rovers_array[rover_array_counter];
 
   var counter = 0
   function iterateRoverArray() {
-    if (counter != current_rover_array.length) {
-      var position_array = current_rover_array[counter];
-      drawRover1(current_rover_array, counter, position_array);
+    if (current_rover_array.length == counter +1) {
+      setTimeout(get_next_rover_array,2000);
     }
+
+    position1_array = current_rover_array[counter];
+    position2_array = current_rover_array[counter + 1];
+    console.log(`position1_array is ${position1_array}`);
+    console.log(`position2_array is ${position2_array}`);
+
+    if(position1_array[2] != position2_array[2]) {
+      console.log("It's a rotation");
+      var x = (position2_array[0] * x_multiplyer);
+      var y = ((grid_size[1] - position2_array[1]) * y_multiplyer)
+      var direction = position2_array[2];
+      var loops = 1;
+      console.log(`direction from rotation is ${direction}`)
+    }else{
+      console.log("It's a move");
+      var x = (position1_array[0] * x_multiplyer);
+      var y = ((grid_size[1] - position1_array[1]) * y_multiplyer)
+      var  direction = position1_array[2];
+      var loops = x_multiplyer;
+      console.log(`direction from move is ${direction}`)
+    }
+    counter += 1;
+    drawRover(x,y,direction,loops);
+
   }
 
 
 
-
-  function drawRover1(current_rover_array, counter, position_array){
-    var x_multiplyer = 500 / grid_size[0];
-    var y_multiplyer = 500 / grid_size[1];
+  function drawRover(x,y,direction,loops){
+    var animation_counter = 1;
     var imgTag = new Image();
     var rover_canvas = document.getElementById('roverCanvas');
     var ctx = rover_canvas.getContext("2d");
-    var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
-    var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
+    // var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
+    // var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
     imgTag.onload = animate;
     imgTag.src = "/red-rover.png";   // load image
 
     function animate() {
       ctx.clearRect(0, 0, 500, 500);  // clear canvas
       ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);                       // draw image at current position
-      switch(position_array[2]) {
-    case "N":
-        y -= 5
-        break;
-    case "E":
-        x -=5
-        break;
-    case "S":
-        y +=5
-        break;
-    case "W":
-        x +=5
-        break;
+      switch(direction) {
+        case "N":
+            y -= 1
+            break;
+        case "E":
+            x +=1
+            break;
+        case "S":
+            y +=1
+            break;
+        case "W":
+            x -=1
+            break;
       }
-      // x -= 5;
-      // if (( y < 0 || x < 0) || (x > canvas.width || y > canvas.height)) {
-      if (y == current_rover_array[counter + 1][1]*y_multiplyer) {
-        counter += 1;
-        // drawGrid(grid_size);
-        iterateRoverArray(current_rover_array,counter);
-      } else {
-        // console.log(y);
+      console.log(`Animation counter is ${animation_counter}`);
+      console.log(`loops is ${loops}`);
+      if (animation_counter < loops) {
+        animation_counter += 1;
         window.requestAnimationFrame(animate)
-        // drawGrid(grid_size);
+      } else {
+          iterateRoverArray();
       }
+
     }
   }
+
+
+
   function create_div(){
       drawGrid(grid_size);
       //    drawRover1(current_rover_array);
-      iterateRoverArray(current_rover_array,counter);
+      get_next_rover_array();
       }
 </script>

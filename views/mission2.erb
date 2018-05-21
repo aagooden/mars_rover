@@ -185,6 +185,11 @@ current_rover_array = all_rovers_array[rover_array_counter];
 
       ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
 
+      ctx.lineWidth=2;
+      ctx.strokeStyle="blue";
+      ctx.moveTo(previous_x + 0.25 * x_multiplyer, previous_y + 0.25 * y_multiplyer);
+      ctx.lineTo(x + 0.25 * x_multiplyer, y + 0.25 * y_multiplyer);
+      ctx.stroke();
 
 
       console.log(`Animation counter is ${animation_counter}`);

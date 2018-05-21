@@ -60,12 +60,18 @@
   var grid_string = '<%= session[:grid_size].to_json %>';
   var grid_size = JSON.parse(grid_string);
 
-  var rover1_string = '<%= rover1_route.to_json %>';
-  var rover1_array = JSON.parse(rover1_string);
-  var rover2_string = '<%= rover2_route.to_json %>';
-  var rover2_array = JSON.parse(rover2_string);
+  // var rover1_string = '<%= rover1_route.to_json %>';
+  // var rover1_array = JSON.parse(rover1_string);
+  // var rover2_string = '<%= rover2_route.to_json %>';
+  // var rover2_array = JSON.parse(rover2_string);
 
-  var all_rover_hash = JSON.parse('<%= session[:rover_routes].tojson %>');
+  var all_rovers_hash = JSON.parse('<%= session[:rover_routes].tojson %>');
+  var all_rovers_array = [];
+
+  for(var index in all_rovers_hash) {
+    all_rovers_array.push(all_rovers_hash[index]);
+  }
+
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
 

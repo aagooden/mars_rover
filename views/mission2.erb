@@ -79,16 +79,6 @@
   // var ctx = c.getContext("2d");
 
 
-  // function sleep(milliseconds) {
-  //   var start = new Date().getTime();
-  //   for (var i = 0; i < 1e7; i++) {
-  //     if ((new Date().getTime() - start) > milliseconds){
-  //       break;
-  //     }
-  //   }
-  // }
-
-
   function drawGrid(grid_size) {
     var c = document.getElementById("grid_canvas");
     var ctx = c.getContext("2d");
@@ -115,6 +105,7 @@
   function get_next_rover_array() {
 current_rover_array = all_rovers_array[rover_array_counter];
   rover_array_counter += 1
+  iterateRoverArray_counter = 0;
   iterateRoverArray();
   }
 
@@ -163,26 +154,39 @@ current_rover_array = all_rovers_array[rover_array_counter];
     var ctx = rover_canvas.getContext("2d");
     // var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
     // var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
-    imgTag.onload = animate;
+    animate();
     imgTag.src = "/red-rover.png";   // load image
 
     function animate() {
       ctx.clearRect(0, 0, 500, 500);  // clear canvas
-      ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);                       // draw image at current position
+      // ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+
+      var previous_x = x;
+      var previous_y = y;
+
       switch(direction) {
         case "N":
+            imgTag.src = "/red-rover.png"
             y -= 1
             break;
         case "E":
+            imgTag.src = "/red-rover_E.png"
             x +=1
             break;
         case "S":
+            imgTag.src = "/red-rover_S.png"
             y +=1
             break;
         case "W":
+            imgTag.src = "/red-rover_W.png"
             x -=1
             break;
       }
+
+      ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+
+
+
       console.log(`Animation counter is ${animation_counter}`);
       console.log(`loops is ${loops}`);
       if (animation_counter < loops) {

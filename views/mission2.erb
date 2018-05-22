@@ -4,21 +4,21 @@
     /* background-repeat: no-repeat; */
     background-size: cover;
   }
-  #wrapper{
+  #cheese{
     position:relative;
-    width:500px;
-    height:500px;
+    width:750px;
+    height:750px;
     margin: 0 auto;
 }
 #grid_canvas,#roverCanvas,#historyCanvas{
     position:absolute; top:0px; left:0px;
-    width:500px;
-    height:500px;
+    width:750px;
+    height:750px;
 
 }
 </style>
 
-<body background="mission_control.jpg" onload="create_div()">
+<body background="surface_control.jpg" onload="create_div()">
 
   <img id="rover_image" style="display: none;" src="red-rover.png">
 
@@ -42,10 +42,10 @@
   <!-- <div id = "load_div"></div> -->
 
   <!-- <div id = "placehere"></div> -->
-  <div id="wrapper">
-    <canvas  id="grid_canvas" class="mars_pic" width="500vw" height="500vh"></canvas>
-    <canvas  id="roverCanvas" width="500vw" height="500vh"></canvas>
-    <canvas  id="historyCanvas" width="500vw" height="500vh"></canvas>
+  <div id="cheese">
+    <canvas  id="grid_canvas" class="mars_pic" width="750" height="750"></canvas>
+    <canvas  id="roverCanvas" width="750" height="750"></canvas>
+    <canvas  id="historyCanvas" width="750" height="750"></canvas>
   </div>
 
 </body>
@@ -63,8 +63,8 @@
   var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
   var all_rovers_array = [];
   var rover_array_counter = 0;
-  var x_multiplyer = 500 / (grid_size[0] +1);
-  var y_multiplyer = 500 / (grid_size[1] +1);
+  // var x_multiplyer = 500 / (grid_size[0] +1);
+  // var y_multiplyer = 500 / (grid_size[0] +1);
   var line_x_offset = 0;
   var line_y_offset = 0;
   for(var index in all_rovers_hash) {
@@ -75,27 +75,37 @@
   var line_color = "red";
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
-  function drawGrid(grid_size) {
-    var c = document.getElementById("grid_canvas");
-    var ctx = c.getContext("2d");
-    ctx.lineWidth=1;
-    ctx.strokeStyle="green";
-    ctx.strokeRect(2,2,498,498);
-    var row_width = 500 / (grid_size[0] + 1);
-    var column_width = 500 / (grid_size[0] + 1);
-    var i;
-    for (i = 0; i < grid_size[0] + 1; i++) {
-    ctx.moveTo(row_width * i, 0);
-    ctx.lineTo(row_width * i, 499);
-    ctx.stroke();
-    }
-    var i;
-    for (i = 0; i < grid_size[0] + 1; i++) {
-      ctx.moveTo(0, column_width * i);
-      ctx.lineTo(499, column_width * i);
-      ctx.stroke();
-    }
+
+  var largest_grid_size = Math.max(grid_size[0],grid_size[1]);
+  console.log(`largest_grid_size is ${largest_grid_size}`)
+    console.log(`grid_size is ${grid_size}`)
+  var multiplyer = 750 / (largest_grid_size + 1);
+
+function drawGrid(grid_size) {
+  var c = document.getElementById("grid_canvas");
+  var ctx = c.getContext("2d");
+  ctx.lineWidth=1;
+  ctx.strokeStyle="green";
+  // ctx.strokeRect(2,2,498,498);
+
+  //draw vertical lines
+  var i;
+  console.log(`multiplyer is ${multiplyer}`)
+  for (i = 0; i < grid_size[0] + 2; i++) {
+  ctx.moveTo(multiplyer * i, 0);
+  ctx.lineTo(multiplyer * i, (grid_size[1] + 1) * multiplyer);
+  ctx.stroke();
   }
+
+  //draw horizontal lines
+  var i;
+    console.log(`multiplyer is ${multiplyer}`)
+  for (i = 0; i < grid_size[1] + 2; i++) {
+    ctx.moveTo(0, multiplyer * i);
+    ctx.lineTo((grid_size[0] + 1) * multiplyer, multiplyer * i);
+    ctx.stroke();
+  }
+}
 function get_next_rover_array() {
   current_rover_array = all_rovers_array[rover_array_counter];
   rover_array_counter += 1
@@ -114,10 +124,11 @@ function get_next_rover_array() {
     position2_array = current_rover_array[iterateRoverArray_counter + 1];
     console.log(`position1_array is ${position1_array}`);
     console.log(`position2_array is ${position2_array}`);
+
     if(position1_array[2] != position2_array[2]) {
       console.log("It's a rotation");
-      var x = (position2_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
-      var y = (((grid_size[1]) - position2_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
+      var x = (position2_array[0] * multiplyer) + 0.25 * multiplyer;
+      var y = ((grid_size[1] - position2_array[1]) * multiplyer) + 0.25 * multiplyer;
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);
       var direction = position2_array[2];
@@ -142,14 +153,23 @@ function get_next_rover_array() {
         }
         var history_canvas = document.getElementById('historyCanvas');
         var history_ctx = history_canvas.getContext("2d");
-        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+        history_ctx.drawImage(history_img, x, y, multiplyer * 0.5, multiplyer * 0.5);
       }
     }else{
       console.log("It's a move");
-      var x = (position1_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
-      var y = (((grid_size[1]) - position1_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
+      var x = (position1_array[0] * multiplyer) + 0.25 * multiplyer;
+      console.log(`x at its a move is ${x}`);
+
+      // var x = (position1_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
+      var y = (((grid_size[1]) - position1_array[1]) * multiplyer) + 0.25 * multiplyer;
+
+      // var y = (((grid_size[1]) - position1_array[1]) * multiplyer) + 0.25 * multiplyer;
+
+
+      console.log(`y at its a move is ${y}`);
       var  direction = position1_array[2];
-      var loops = x_multiplyer;
+      var loops = multiplyer;
+      console.log(`loops at this point in the move is ${loops}`);
       setTimeout(draw_move_image,50);
 
       function draw_move_image() {
@@ -170,7 +190,7 @@ function get_next_rover_array() {
         }
         var history_canvas = document.getElementById('historyCanvas');
         var history_ctx = history_canvas.getContext("2d");
-        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+        history_ctx.drawImage(history_img, x, y, multiplyer * 0.5, multiplyer * 0.5);
       }
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);
@@ -184,12 +204,11 @@ function get_next_rover_array() {
     var imgTag = new Image();
     var rover_canvas = document.getElementById('roverCanvas');
     var ctx = rover_canvas.getContext("2d");
-    // var x = (position_array[0]*x_multiplyer) + 0.25*x_multiplyer;
-    // var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
+
     animate();
     imgTag.src = "/red-rover.png";   // load image
     function animate() {
-      ctx.clearRect(0, 0, 500, 500);  // clear canvas
+      ctx.clearRect(0, 0, 750, 750);  // clear canvas
       // ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
       if (y < 0){
         y = rover_canvas.height;
@@ -220,14 +239,14 @@ function get_next_rover_array() {
             x -=1
             break;
       }
-      ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+      ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5);
 
       history_ctx.lineWidth=2;
       // var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)])&& (lor.length == 6) ?  lor :co(lor);})('');
       history_ctx.beginPath();
       history_ctx.strokeStyle=line_color;
-      history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * x_multiplyer, (previous_y + line_y_offset) + 0.25 * y_multiplyer);
-      history_ctx.lineTo((x + line_x_offset) + 0.25 * x_multiplyer, (y + line_y_offset) + 0.25 * y_multiplyer);
+      history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * multiplyer, (previous_y + line_y_offset) + 0.25 * multiplyer);
+      history_ctx.lineTo((x + line_x_offset) + 0.25 * multiplyer, (y + line_y_offset) + 0.25 * multiplyer);
       history_ctx.stroke();
       history_ctx.closePath();
       console.log(`Animation counter is ${animation_counter}`);

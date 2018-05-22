@@ -7,8 +7,8 @@ body {
   background-repeat:no-repeat;
   background-position:center;
   background-attachment: fixed;
-  /* background-color: grey */
-  font-family: "Helvetica", Arial, sans-serif;
+  background-color: grey;
+  font-family: "monospace", OCR, std;
   padding: 40px;
   text-align: center;
   font-size: 30px;
@@ -21,7 +21,7 @@ h3 {
   margin-top: 20px;
   margin-bottom: 5px;
   font-family: serif;
-  font-size: 25px;
+  font-size: 15px;
   font-weight: bold;
   color: #072644;
 }
@@ -31,7 +31,7 @@ h2 {
   margin-top: 20px;
   margin-bottom: 0px;
   font-family: serif;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: bold;
   color: white;
       text-shadow:
@@ -46,7 +46,7 @@ h1 {
   text-align: center;
   margin-top: 100px;
   font-family: serif;
-  font-size: 75px;
+  font-size: 50px;
   font-weight: bold;
   color: white;
   text-decoration-color:
@@ -93,6 +93,15 @@ textarea {
 }
 
 
+.direction_buttons {
+  margin: 0 auto;
+  padding: 10px;
+  width: 200px;
+  background-color: black;
+  border-radius: 10px;
+}
+
+
 .columns {
   margin-top: 50px;
   text-align: left;
@@ -114,12 +123,12 @@ textarea {
   display: flex;
   flex-direction: column;
   /* min-height: 100vh; */
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 1%;
-  margin: 1%;
+  margin: 0 auto;
   border-color: black;
   border-style: inset;
   border-width: 5px;
-  width: 90%;
+  width: 50%;
 }

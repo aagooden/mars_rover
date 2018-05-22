@@ -4,43 +4,39 @@
     /* background-repeat: no-repeat; */
     background-size: cover;
   }
-
   #wrapper{
     position:relative;
     width:500px;
     height:500px;
+    margin: 0 auto;
 }
 #grid_canvas,#roverCanvas,#historyCanvas{
     position:absolute; top:0px; left:0px;
     width:500px;
     height:500px;
+
 }
 </style>
 
-<body onload="create_div()">
+<body background="mission_control.jpg" onload="create_div()">
 
   <img id="rover_image" style="display: none;" src="red-rover.png">
 
 
-  <!-- <img src="/mars_surface.png" id="mars_pic"> -->
-  <!--<img class="resize" src="/some_picture_.jpg"> -->
-  <h3><%=session[:rover_routes]%></h3>
-  <%=rover1_route = session[:rover_routes]["rover1"]%>
-  <%=rover1_route = session[:rover_routes]["rover2"]%>
 
 
 
-  <!-- <%rover1_route = session[:rover_routes]["rover1"]%>
-  <%rover2_route = session[:rover_routes]["rover2"]%> -->
+  <%rover1_route = session[:rover_routes]["rover1"]%>
+  <%rover2_route = session[:rover_routes]["rover2"]%>
 
   <h2>The starting position for Rover #1 is <%=rover1_route[0]%></h2>
-  <h3>The path Rover #1 took is <%=rover1_route%></h3>
+
   <h2>The ending position for Rover #1 is <%=rover1_route.last%></h2><br><br>
 
 
 
   <h2>The starting position for Rover #2 is <%=rover2_route[0]%></h2>
-  <h3>The path Rover #2 took is <%=rover2_route%></h3>
+
   <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
 
   <!-- <div id = "load_div"></div> -->
@@ -60,34 +56,25 @@
     console.log("You are the coolest dude!");
   var grid_string = '<%= session[:grid_size].to_json %>';
   var grid_size = JSON.parse(grid_string);
-
   // var rover1_string = '<%= rover1_route.to_json %>';
   // var current_rover_array = JSON.parse(rover1_string);
   // var rover2_string = '<%= rover2_route.to_json %>';
   // var rover2_array = JSON.parse(rover2_string);
-
   var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
   var all_rovers_array = [];
   var rover_array_counter = 0;
   var x_multiplyer = 500 / (grid_size[0] +1);
   var y_multiplyer = 500 / (grid_size[1] +1);
-
   var line_x_offset = 0;
   var line_y_offset = 0;
-
   for(var index in all_rovers_hash) {
     all_rovers_array.push(all_rovers_hash[index]);
   }
-
   var history_canvas = document.getElementById('historyCanvas');
   var history_ctx = history_canvas.getContext("2d");
-
-
   var line_color = "red";
   // var c = document.getElementById("myCanvas");
   // var ctx = c.getContext("2d");
-
-
   function drawGrid(grid_size) {
     var c = document.getElementById("grid_canvas");
     var ctx = c.getContext("2d");
@@ -109,16 +96,12 @@
       ctx.stroke();
     }
   }
-
-
 function get_next_rover_array() {
   current_rover_array = all_rovers_array[rover_array_counter];
   rover_array_counter += 1
   iterateRoverArray_counter = 0;
   iterateRoverArray();
   }
-
-
   var iterateRoverArray_counter = 0
   function iterateRoverArray() {
     if (current_rover_array.length == iterateRoverArray_counter +1) {
@@ -127,12 +110,10 @@ function get_next_rover_array() {
       line_x_offset = 3;
       line_y_offset = 3;
     }
-
     position1_array = current_rover_array[iterateRoverArray_counter];
     position2_array = current_rover_array[iterateRoverArray_counter + 1];
     console.log(`position1_array is ${position1_array}`);
     console.log(`position2_array is ${position2_array}`);
-
     if(position1_array[2] != position2_array[2]) {
       console.log("It's a rotation");
       var x = (position2_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
@@ -141,73 +122,63 @@ function get_next_rover_array() {
       console.log(`y is currently ${y}`);
       var direction = position2_array[2];
       var loops = 1;
+      setTimeout(draw_rotation_image,50);
 
-      // setTimeout(draw_rotation_image,50);
-      //
-      // function draw_rotation_image() {
-      //   var history_img = new Image;
-      //   switch(direction) {
-      //     case "N":
-      //         history_img.src = "/red-rover.png"
-      //         break;
-      //     case "E":
-      //         history_img.src = "/red-rover_E.png"
-      //         break;
-      //     case "S":
-      //         history_img.src = "/red-rover_S.png"
-      //         break;
-      //     case "W":
-      //         history_img.src = "/red-rover_W.png"
-      //         break;
-      //   }
-      //   var history_canvas = document.getElementById('historyCanvas');
-      //   var history_ctx = history_canvas.getContext("2d");
-      //   history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-      // }
-
-
-
+      function draw_rotation_image() {
+        var history_img = new Image;
+        switch(direction) {
+          case "N":
+              history_img.src = "/red-rover.png"
+              break;
+          case "E":
+              history_img.src = "/red-rover_E.png"
+              break;
+          case "S":
+              history_img.src = "/red-rover_S.png"
+              break;
+          case "W":
+              history_img.src = "/red-rover_W.png"
+              break;
+        }
+        var history_canvas = document.getElementById('historyCanvas');
+        var history_ctx = history_canvas.getContext("2d");
+        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+      }
     }else{
       console.log("It's a move");
       var x = (position1_array[0] * x_multiplyer) + 0.25 * x_multiplyer;
       var y = (((grid_size[1]) - position1_array[1]) * y_multiplyer) + 0.25 * y_multiplyer;
       var  direction = position1_array[2];
       var loops = x_multiplyer;
+      setTimeout(draw_move_image,50);
 
-      // setTimeout(draw_move_image,50);
-      //
-      // function draw_move_image() {
-      //   var history_img = new Image;
-      //   switch(direction) {
-      //     case "N":
-      //         history_img.src = "/red-rover.png"
-      //         break;
-      //     case "E":
-      //         history_img.src = "/red-rover_E.png"
-      //         break;
-      //     case "S":
-      //         history_img.src = "/red-rover_S.png"
-      //         break;
-      //     case "W":
-      //         history_img.src = "/red-rover_W.png"
-      //         break;
-      //   }
-      //   var history_canvas = document.getElementById('historyCanvas');
-      //   var history_ctx = history_canvas.getContext("2d");
-      //   history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-      // }
-
+      function draw_move_image() {
+        var history_img = new Image;
+        switch(direction) {
+          case "N":
+              history_img.src = "/red-rover.png"
+              break;
+          case "E":
+              history_img.src = "/red-rover_E.png"
+              break;
+          case "S":
+              history_img.src = "/red-rover_S.png"
+              break;
+          case "W":
+              history_img.src = "/red-rover_W.png"
+              break;
+        }
+        var history_canvas = document.getElementById('historyCanvas');
+        var history_ctx = history_canvas.getContext("2d");
+        history_ctx.drawImage(history_img, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
+      }
       console.log(`x is currently ${x}`);
       console.log(`y is currently ${y}`);
       console.log(`direction from move is ${direction}`)
     }
     iterateRoverArray_counter += 1;
     drawRover(x,y,direction,loops);
-
   }
-
-
-
   function drawRover(x,y,direction,loops){
     var animation_counter = 1;
     var imgTag = new Image();
@@ -217,11 +188,9 @@ function get_next_rover_array() {
     // var y = (position_array[1]*y_multiplyer) + 1.25*y_multiplyer;
     animate();
     imgTag.src = "/red-rover.png";   // load image
-
     function animate() {
       ctx.clearRect(0, 0, 500, 500);  // clear canvas
       // ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
-
       if (y < 0){
         y = rover_canvas.height;
       } else if(y > rover_canvas.height) {
@@ -231,10 +200,8 @@ function get_next_rover_array() {
       } else if (x > rover_canvas.width) {
         x = 0;
       }
-
       var previous_x = x;
       var previous_y = y;
-
       switch(direction) {
         case "N":
             imgTag.src = "/red-rover.png"
@@ -253,37 +220,27 @@ function get_next_rover_array() {
             x -=1
             break;
       }
-
       ctx.drawImage(imgTag, x, y, x_multiplyer * 0.5, x_multiplyer * 0.5);
 
-
       history_ctx.lineWidth=2;
-
-
       // var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)])&& (lor.length == 6) ?  lor :co(lor);})('');
-
       history_ctx.beginPath();
       history_ctx.strokeStyle=line_color;
       history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * x_multiplyer, (previous_y + line_y_offset) + 0.25 * y_multiplyer);
       history_ctx.lineTo((x + line_x_offset) + 0.25 * x_multiplyer, (y + line_y_offset) + 0.25 * y_multiplyer);
       history_ctx.stroke();
       history_ctx.closePath();
-
-
       console.log(`Animation counter is ${animation_counter}`);
       console.log(`loops is ${loops}`);
       if (animation_counter < loops) {
         animation_counter += 1;
         window.requestAnimationFrame(animate)
       } else {
+
           iterateRoverArray();
       }
-
     }
   }
-
-
-
   function create_div(){
       drawGrid(grid_size);
       //    drawRover1(current_rover_array);

@@ -1,5 +1,5 @@
 
-<body background="mission_control.jpg">
+<body background="mars_background.jpg">
 
 	<h1>Welcome to Mars Rover Mission Control</h1>
 <div class="flex-container">
@@ -23,7 +23,41 @@
 		</select><br>
 
 	<h3>Input Rover #1 moves</h3>
-		<input type="text" name="rover1_moves" placeholder="Rover #1 Moves">
+		<input type="text" id="rover1_moves" name="rover1_moves" ><br><br>
+
+<script>
+	function forward() {
+		document.getElementById('rover1_moves').value += 'M'
+	}
+
+	function left() {
+		document.getElementById('rover1_moves').value += 'L'
+	}
+
+	function right() {
+		document.getElementById('rover1_moves').value += 'R'
+	}
+
+
+	function forward2() {
+		document.getElementById('rover2_moves').value += 'M'
+	}
+
+	function left2() {
+		document.getElementById('rover2_moves').value += 'L'
+	}
+
+	function right2() {
+		document.getElementById('rover2_moves').value += 'R'
+	}
+
+</script>
+
+<div class="direction_buttons">
+  <button type="button" onclick="forward()">FORWARD</button><br>
+  <button type="button" onclick="left()">ROTATE LEFT</button>
+  <button type="button" onclick="right()">ROTATE RIGHT</button><br>
+</div>
 
 	<h3>Input the starting coordinates of Rover #2 as x and y coordinate</h3>
 		(<input type="number" name="rover2_x_value" placeholder="Rover 2 X value">,
@@ -39,9 +73,16 @@
 		</select><br><br>
 
 	<h3>Input Rover #2 moves</h3>
-		<input type="text" name="rover2_moves" placeholder="Rover #2 Moves">
+		<input type="text" id="rover2_moves" name="rover2_moves" ><br><br>
+
+		<div class="direction_buttons">
+		  <button type="button" onclick="forward2()">FORWARD</button><br>
+		  <button type="button" onclick="left2()">ROTATE LEFT</button>
+		  <button type="button" onclick="right2()">ROTATE RIGHT</button><br>
+		</div>
 
 	<input type="submit" name="" value="Submit">
+
 </form>
 </div>
 </body>

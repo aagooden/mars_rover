@@ -4,6 +4,11 @@ require_relative "controller.rb"
 
 
 
+def multiple_instructions_array(grid_x_value, grid_y_value, rover_x_values_arr, rover_y_values_arr, rover_directions_arr, rover_moves_arr)
+  
+end
+
+
 def instructions_array(instructions="5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
   instructions = instructions.split("\n")
   return instructions

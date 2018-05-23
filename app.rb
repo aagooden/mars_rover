@@ -9,6 +9,18 @@ end
 
 
 post "/mission_info" do
+
+	grid_x_value = params[:grid_x_value]
+	grid_y_value = params[:grid_y_value]
+
+	rover_x_values_arr = params[:rover_x_values]
+	rover_y_values_arr = params[:rover_y_values]
+	rover_directions_arr = params[:roverDirection]
+	rover_moves_arr = params[:rover_moves]
+
+	puts "grid_x_value is #{grid_x_value}, AND grid_y_value is #{grid_y_value}, AND rover_x_values_arr is #{rover_x_values_arr}, rover_y_values_arr is #{rover_y_values_arr} rover_directions_arr is #{rover_directions_arr}, AND rover_moves_arr is #{rover_moves_arr}"
+
+
 	grid_size_x = params[:grid_x_value].to_i
 	grid_size_y = params[:grid_y_value].to_i
 	session[:grid_size] = [grid_size_x, grid_size_y]
@@ -23,7 +35,9 @@ post "/mission_info" do
 	rover2_direction = params[:rover2_direction]
 	rover2_moves = params[:rover2_moves]
 
-	session[:number_of_rovers] = 2
+	session[:number_of_rovers] = rover_x_values_arr.length
+
+	instructions = multiple_instructions_array(grid_x_value, grid_y_value, rover_x_values_arr, rover_y_values_arr, rover_directions_arr, rover_moves_arr)
 
 	instructions = "#{grid_size_x} #{grid_size_y}\n#{rover1_start_x} #{rover1_start_y} #{rover1_direction}\n#{rover1_moves}\n#{rover2_start_x} #{rover2_start_y} #{rover2_direction}\n#{rover2_moves}"
 	# instructions = "5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM"

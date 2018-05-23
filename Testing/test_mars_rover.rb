@@ -323,4 +323,10 @@ class Mars_test < Minitest::Test
 		checked_move = grid.pac_man_move(possible_coordinates)
 		assert_equal([1,5], checked_move)
 	end
+
+	def test_multiple_instructions_array
+		correct = "5 5\n1 1 N\nMMM\n2 2 E\nRRR"
+		actual = multiple_instructions_array("5", "5", ["1", "2"], ["1", "2"], ["N", "E"], ["MMM", "RRR"])
+		assert_equal(correct, actual)
+	end
 end

@@ -7,7 +7,7 @@
 
 <div class="flex-container">
 
-<form class="" action="mission_info" method="post">
+<form class="" action="mission_info" method="post" id = "form">
 
 		<h3>Input the grid size as maximum x and y coordinates</h3>
 			(<input type="number" name="grid_x_value" placeholder="Grid X value" required>,
@@ -22,14 +22,18 @@
 
 </form>
 
-<div style="display: flex">
-			<div>
-				<a href="#roverInformation" onclick = "createRoverElement()" class = "newRoverButton">
+<div style="display: flex" >
+			<div class = "newRoverButton">
+				<a href="#roverInformation" onclick = "createRoverElement()" class="hack_fix">
 					New Rover
 				</a>
 			</div>
 
-			<div id="submitButton" class = 'newRoverButton' >Move Your Rovers</div>
+			<div style="flex: 1">
+
+			</div>
+
+			<div id="submitButton" class = 'newRoverButton' onclick = 'submitForm()'>Move Your Rovers</div>
 </div>
 
 
@@ -38,6 +42,11 @@
 
 
 <script>
+
+	function submitForm() {
+		document.getElementById('form').submit();
+
+	}
 
 	function createRoverElement() {
 		console.log("hidden function");
@@ -48,7 +57,7 @@
 		// console.log(previousRover.id);
 		var parentDiv = document.getElementById('roverInput');
 		var createElement = document.createElement('div');
-		createElement.innerHTML = '<div class=container id=roverInformation style=display:block><h3>Input the starting coordinates of this Rover as x and y coordinate</h3>(<input name=rover_x_values[] placeholder="Rover X value"type=number>, <input name=rover_y_values[] placeholder="Rover Y value"type=number>)<br><h3>Input the starting direction of Rover</h3><select name=roverDirection[]><option value=N>North<option value=E>East<option value=S>South<option value=W>West</select><br><h3>Input the moves for this Rover using Up arrow for Move, Left arrow for Rotate Left, and Right arrow for Rotate Left</h3><input name=rover_moves id=rover1_moves readonly><hr></div>';
+		createElement.innerHTML = '<div class=container id=roverInformation style=display:block><h3>Input the starting coordinates of this Rover as x and y coordinate</h3>(<input name=rover_x_values[] placeholder="Rover X value"type=number>, <input name=rover_y_values[] placeholder="Rover Y value"type=number>)<br><h3>Input the starting direction of Rover</h3><select name=roverDirection[]><option value=N>North<option value=E>East<option value=S>South<option value=W>West</select><br><h3>Input the moves for this Rover using Up arrow for Move, Left arrow for Rotate Left, and Right arrow for Rotate Left</h3><input name=rover_moves[] id=rover1_moves readonly><hr></div>';
 		parentDiv.appendChild(createElement.firstChild);
 
 

@@ -1,31 +1,52 @@
 
 <body background="mars_background.jpg">
 
-	<h1>Welcome to Mars Rover Mission Control</h1>
+	<h1>Welcome to Mars Rover Mission Control</h1><br>
+
+
+
 <div class="flex-container">
 
 <form class="" action="mission_info" method="post">
+	<div id="rover_information">
 
-	<h3>Input the grid size as maximum x and y coordinates</h3>
-		(<input type="number" name="grid_x_value" placeholder="Grid X value">,
-		<input type="number" name="grid_y_value" placeholder="Grid Y value">)<br><br>
+		<h3>Input the grid size as maximum x and y coordinates</h3>
+			(<input type="number" name="grid_x_value" placeholder="Grid X value">,
+			<input type="number" name="grid_y_value" placeholder="Grid Y value">)<br><br>
 
+
+<div>
+
+
+	<a href="#roverInformation" onclick = "newRoverInformation()">
+		New Rover
+	</a>
+
+</div>
+
+<div class="container" id="roverInformation" style="display:none">
 	<h3>Input the starting coordinates of Rover #1 as x and y coordinate</h3>
 		(<input type="number" name="rover1_x_value" placeholder="Rover 1 X value">,
 		<input type="number" name="rover1_y_value" placeholder="Rover 1 Y value">)<br>
 
-	<h3>Input the starting direction of Rover #1</h3>
-		<select name="rover1_direction">
-		  <option value="N">North</option>
-		  <option value="E">East</option>
-		  <option value="S">South</option>
-		  <option value="W">West</option>
-		</select><br>
+		<h3>Input the starting direction of Rover #1</h3>
+			<select name="rover1_direction">
+			  <option value="N">North</option>
+			  <option value="E">East</option>
+			  <option value="S">South</option>
+			  <option value="W">West</option>
+			</select><br>
 
-	<h3>Input Rover #1 moves</h3>
-		<input type="text" id="rover1_moves" name="rover1_moves" ><br><br>
+		<h3>Input Rover #1 moves</h3>
+			<input type="text" id="rover1_moves" name="rover1_moves" readonly="readonly"><br><br>
 
+</div>
 <script>
+	function newRoverInformation() {
+		document.getElementById('roverInformation').style = "block";
+
+	}
+
 	function forward() {
 		document.getElementById('rover1_moves').value += 'M'
 	}
@@ -51,9 +72,28 @@
 		document.getElementById('rover2_moves').value += 'R'
 	}
 
+
+	document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+    e = e || window.event;
+
+    if (e.keyCode == '38') {
+        forward();
+    }
+    else if (e.keyCode == '37') {
+      	left();
+    }
+    else if (e.keyCode == '39') {
+       right();
+    }
+
+}
+
 </script>
 
-<div class="direction_buttons">
+<!-- <div class="direction_buttons">
   <button type="button" onclick="forward()">FORWARD</button><br>
   <button type="button" onclick="left()">ROTATE LEFT</button>
   <button type="button" onclick="right()">ROTATE RIGHT</button><br>
@@ -73,7 +113,7 @@
 		</select><br><br>
 
 	<h3>Input Rover #2 moves</h3>
-		<input type="text" id="rover2_moves" name="rover2_moves" ><br><br>
+		<input type="text" id="rover2_moves" name="rover2_moves" readonly="readonly"><br><br>
 
 		<div class="direction_buttons">
 		  <button type="button" onclick="forward2()">FORWARD</button><br>
@@ -81,7 +121,7 @@
 		  <button type="button" onclick="right2()">ROTATE RIGHT</button><br>
 		</div>
 
-	<input type="submit" name="" value="Submit">
+	<input type="submit" name="" value="Submit"> -->
 
 </form>
 </div>

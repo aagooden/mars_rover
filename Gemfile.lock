@@ -1,23 +1,46 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.2.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
+    ffi (1.9.23)
+    io-like (0.3.0)
+    mini_portile2 (2.3.0)
     mustermann (1.0.2)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
+    power_assert (1.1.1)
     rack (2.0.4)
     rack-protection (2.0.1)
       rack
+    rake (12.3.1)
+    rubyzip (1.2.1)
+    selenium-webdriver (3.12.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.2)
     sinatra (2.0.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
       rack-protection (= 2.0.1)
       tilt (~> 2.0)
+    test-unit (3.2.8)
+      power_assert
     tilt (2.0.8)
-    ruby (2.5.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  chromedriver-helper
+  rake
+  selenium-webdriver
   sinatra
+  test-unit
 
 BUNDLED WITH
    1.16.1

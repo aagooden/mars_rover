@@ -142,4 +142,5 @@ textarea {
   text-decoration: none;
   border-radius: 12px;
   border-width: 2px;
+  flex: 1;
   }

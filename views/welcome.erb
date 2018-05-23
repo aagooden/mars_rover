@@ -14,82 +14,86 @@
 			(<input type="number" name="grid_x_value" placeholder="Grid X value">,
 			<input type="number" name="grid_y_value" placeholder="Grid Y value">)<br><br>
 
+			<hr>
 
-<div>
+			<div id= "roverInput">
+
+			</div>
 
 
-	<a href="#roverInformation" onclick = "newRoverInformation()">
-		New Rover
-	</a>
+			<div>
+				<a href="#roverInformation" onclick = "createRoverElement()" class = "newRoverButton">
+					New Rover
+				</a>
+			</div>
 
-</div>
-
-<div class="container" id="roverInformation" style="display:none">
-	<h3>Input the starting coordinates of Rover #1 as x and y coordinate</h3>
-		(<input type="number" name="rover1_x_value" placeholder="Rover 1 X value">,
-		<input type="number" name="rover1_y_value" placeholder="Rover 1 Y value">)<br>
-
-		<h3>Input the starting direction of Rover #1</h3>
-			<select name="rover1_direction">
-			  <option value="N">North</option>
-			  <option value="E">East</option>
-			  <option value="S">South</option>
-			  <option value="W">West</option>
-			</select><br>
-
-		<h3>Input Rover #1 moves</h3>
-			<input type="text" id="rover1_moves" name="rover1_moves" readonly="readonly"><br><br>
+<div id="rover1_moves">
 
 </div>
+
 <script>
+
+	function createRoverElement() {
+		console.log("hidden function");
+		document.getElementById('rover1_moves').id = 'oldRover';
+		// console.log(`this is previousRover ${previousRover}`);
+		// previousRover = 'oldRover';
+
+		// console.log(previousRover.id);
+		var parentDiv = document.getElementById('roverInput');
+		var createElement = document.createElement('div');
+		createElement.innerHTML = '<div class=container id=roverInformation style=display:block><h3>Input the starting coordinates of this Rover as x and y coordinate</h3>(<input name=rover_x_values[] placeholder="Rover X value"type=number>, <input name=rover_y_values[] placeholder="Rover Y value"type=number>)<br><h3>Input the starting direction of Rover</h3><select name=roverDirection[]><option value=N>North<option value=E>East<option value=S>South<option value=W>West</select><br><h3>Input the moves for this Rover</h3><input name=rover_moves id=rover1_moves readonly><hr></div>';
+		parentDiv.appendChild(createElement.firstChild);
+
+		var roverElement = document.getElementById('rover1_moves')
+
+		function forward() {
+			roverElement.value += 'M'
+		}
+
+		function left() {
+			roverElement.value += 'L'
+		}
+
+		function right() {
+			roverElement.value += 'R'
+		}
+
+
+		document.onkeydown = checkKey;
+
+		window.addEventListener("keydown", function(e) {
+		   // space and arrow keys
+		   if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+		       e.preventDefault();
+		   }
+		}, false);
+
+	function checkKey(e) {
+
+
+	    e = e || window.event;
+
+	    if (e.keyCode == '38') {
+	        forward();
+	    }
+	    else if (e.keyCode == '37') {
+	      	left();
+	    }
+	    else if (e.keyCode == '39') {
+	       right();
+	    }
+
+	}
+
+	}
+
 	function newRoverInformation() {
 		document.getElementById('roverInformation').style = "block";
 
 	}
 
-	function forward() {
-		document.getElementById('rover1_moves').value += 'M'
-	}
 
-	function left() {
-		document.getElementById('rover1_moves').value += 'L'
-	}
-
-	function right() {
-		document.getElementById('rover1_moves').value += 'R'
-	}
-
-
-	function forward2() {
-		document.getElementById('rover2_moves').value += 'M'
-	}
-
-	function left2() {
-		document.getElementById('rover2_moves').value += 'L'
-	}
-
-	function right2() {
-		document.getElementById('rover2_moves').value += 'R'
-	}
-
-
-	document.onkeydown = checkKey;
-
-function checkKey(e) {
-
-    e = e || window.event;
-
-    if (e.keyCode == '38') {
-        forward();
-    }
-    else if (e.keyCode == '37') {
-      	left();
-    }
-    else if (e.keyCode == '39') {
-       right();
-    }
-
-}
 
 </script>
 

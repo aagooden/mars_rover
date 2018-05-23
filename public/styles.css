@@ -80,7 +80,7 @@ a:active,
 input[type="submit"]:hover,
 input[type="submit"]:focus,
 input[type="submit"]:active {
-  background-color: black;
+  background-color: grey;
 }
 
 input[type="text"],
@@ -132,3 +132,14 @@ textarea {
   border-width: 5px;
   width: 50%;
 }
+
+  .newRoverButton {
+  border-style: solid;
+  padding: 5px;
+  color: black;
+  font-size: 1rem;
+  background-color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  border-width: 2px;
+  }

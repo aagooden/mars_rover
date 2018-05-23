@@ -5,7 +5,22 @@ require_relative "controller.rb"
 
 
 def multiple_instructions_array(grid_x_value, grid_y_value, rover_x_values_arr, rover_y_values_arr, rover_directions_arr, rover_moves_arr)
-  
+
+  # instructions = "#{grid_size_x} #{grid_size_y}\n#{rover1_start_x} #{rover1_start_y} #{rover1_direction}\n#{rover1_moves}\n#{rover2_start_x} #{rover2_start_y} #{rover2_direction}\n#{rover2_moves}"
+
+  multiple_rover_instructions_string = ""
+
+  multiple_rover_instructions_string = "#{grid_x_value} #{grid_y_value}"
+# puts multiple_rover_instructions_string.class
+# puts multiple_rover_instructions_string + rover_x_values_arr[0] + rover_y_values_arr[0] + rover_directions_arr[0] + rover_moves_arr[0]
+
+  for value in (0...rover_x_values_arr.length) do
+    multiple_rover_instructions_string = multiple_rover_instructions_string + "\n#{rover_x_values_arr[value]} #{rover_y_values_arr[value]} #{rover_directions_arr[value]}\n#{rover_moves_arr[value]}"
+  end
+p "multiple_rover_instructions_string is #{multiple_rover_instructions_string}"
+  return multiple_rover_instructions_string
+
+# correct = "5 5\n1 1 N\nMMM\n2 2 E\nRRR"
 end
 
 

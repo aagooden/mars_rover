@@ -29,15 +29,6 @@
   <%rover1_route = session[:rover_routes]["rover1"]%>
   <%rover2_route = session[:rover_routes]["rover2"]%>
 
-  <h2>The starting position for Rover #1 is <%=rover1_route[0]%></h2>
-
-  <h2>The ending position for Rover #1 is <%=rover1_route.last%></h2><br><br>
-
-
-
-  <h2>The starting position for Rover #2 is <%=rover2_route[0]%></h2>
-
-  <h2>The ending position for Rover #2 is <%=rover2_route.last%></h2>
 
   <!-- <div id = "load_div"></div> -->
 
@@ -51,20 +42,15 @@
 </body>
 
 <script>
-  // var check = document.getElementById('loaded');
-  // if (check == null) {
+
     console.log("You are the coolest dude!");
   var grid_string = '<%= session[:grid_size].to_json %>';
   var grid_size = JSON.parse(grid_string);
-  // var rover1_string = '<%= rover1_route.to_json %>';
-  // var current_rover_array = JSON.parse(rover1_string);
-  // var rover2_string = '<%= rover2_route.to_json %>';
-  // var rover2_array = JSON.parse(rover2_string);
+
   var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
   var all_rovers_array = [];
   var rover_array_counter = 0;
-  // var x_multiplyer = 500 / (grid_size[0] +1);
-  // var y_multiplyer = 500 / (grid_size[0] +1);
+
   var line_x_offset = 0;
   var line_y_offset = 0;
   for(var index in all_rovers_hash) {
@@ -73,8 +59,7 @@
   var history_canvas = document.getElementById('historyCanvas');
   var history_ctx = history_canvas.getContext("2d");
   var line_color = "red";
-  // var c = document.getElementById("myCanvas");
-  // var ctx = c.getContext("2d");
+
 
   var largest_grid_size = Math.max(grid_size[0],grid_size[1]);
   console.log(`largest_grid_size is ${largest_grid_size}`)

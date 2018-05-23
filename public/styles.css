@@ -148,3 +148,8 @@ textarea {
   border-width: 2px;
   flex: 15;
   }
+
+  .red_text {
+    font-size: 1rem;
+    color: red;
+  }

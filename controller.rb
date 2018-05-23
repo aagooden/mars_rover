@@ -20,6 +20,7 @@ class Controller
     route_hash = {}
     route_hash[current_rover.name] = []
     route_hash[current_rover.name].push(current_rover.position + [current_rover.direction])
+    p "current_rover"
       rover_moves = current_rover.moves.each_char.to_a
       rover_moves.each do |r_move|
           case r_move

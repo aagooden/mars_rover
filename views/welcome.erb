@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="css/fontawesome-all.css">
 <body background="mars_background.jpg">
 
 	<h1>Welcome to Mars Rover Mission Control</h1><br>
@@ -10,8 +10,9 @@
 <form class="" action="mission_info" method="post" id = "form">
 
 		<h3>Input the grid size as maximum x and y coordinates</h3>
-			(<input type="number" name="grid_x_value" placeholder="Grid X value" required>,
-			<input type="number" name="grid_y_value" placeholder="Grid Y value" required>)<br><br>
+		<p class = "red_text" style="display: none" id="grid_warning" >Please enter your X and Y values.</p>
+			(<input type="number" name="grid_x_value" placeholder="Grid X value" required class="something">,
+			<input type="number" name="grid_y_value" placeholder="Grid Y value" required class="something">)<br><br>
 
 			<hr>
 
@@ -24,7 +25,7 @@
 
 <div style="display: flex" >
 			<div class = "newRoverButton">
-				<a href="#roverInformation" onclick = "createRoverElement()" class="hack_fix">
+				<a href="#roverInformation" id="newRoverButton" onclick = "check_inputs(this.id)" class="hack_fix">
 					New Rover
 				</a>
 			</div>
@@ -33,7 +34,7 @@
 
 			</div>
 
-			<div id="submitButton" class = 'newRoverButton' onclick = 'submitForm()'>Move Your Rovers</div>
+			<div id="submitButton" class = 'newRoverButton' onclick = 'check_inputs(this.id)'>Move Your Rovers</div>
 </div>
 
 
@@ -42,6 +43,24 @@
 
 
 <script>
+
+	function check_inputs(item) {
+		var something = document.querySelectorAll('.something');
+		var counter = 0;
+		for(i=0; i<something.length; i++) {
+			if(something[i].value == "") {
+				counter += 1;
+			}
+		}
+		console.log(counter);
+		if(counter != 0) {
+			document.getElementById('grid_warning').style.display = "block";
+		} else if(item == "submitButton") {
+			submitForm();
+		} else {
+			createRoverElement();
+		}
+	}
 
 	function submitForm() {
 		document.getElementById('form').submit();
@@ -57,7 +76,7 @@
 		// console.log(previousRover.id);
 		var parentDiv = document.getElementById('roverInput');
 		var createElement = document.createElement('div');
-		createElement.innerHTML = '<div class=container id=roverInformation style=display:block><h3>Input the starting coordinates of this Rover as x and y coordinate</h3>(<input name=rover_x_values[] placeholder="Rover X value"type=number>, <input name=rover_y_values[] placeholder="Rover Y value"type=number>)<br><h3>Input the starting direction of Rover</h3><select name=roverDirection[]><option value=N>North<option value=E>East<option value=S>South<option value=W>West</select><br><h3>Input the moves for this Rover using Up arrow for Move, Left arrow for Rotate Left, and Right arrow for Rotate Left</h3><input name=rover_moves[] id=rover1_moves readonly><hr></div>';
+		createElement.innerHTML = '<div style=display:block class=container id=roverInformation><h3>Input the starting coordinates of this Rover as x and y coordinate</h3>( <input name=rover_x_values[] class=something placeholder="Rover X value"type=number>, <input name=rover_y_values[] class=something placeholder="Rover Y value"type=number>)<br><h3>Input the starting direction of Rover</h3><select name=roverDirection[]><option value=N>North<option value=E>East<option value=S>South<option value=W>West</select><br><h3>Please Use Your Arrow Keys</h3><h3>Forward</h3><i class="fas fa-arrow-circle-up"></i><div style=display:flex><div style=flex:1><h3>Rotate Left</h3><i class="fas fa-arrow-circle-left"></i></div><div style=flex:1><h3>Rotate Right</h3><i class="fas fa-arrow-circle-right"></i></div></div><input name=rover_moves[] id=rover1_moves readonly required><hr></div>';
 		parentDiv.appendChild(createElement.firstChild);
 
 

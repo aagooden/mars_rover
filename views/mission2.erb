@@ -128,7 +128,8 @@ function traffic_cop() {
     } else if(end_of_moves_array == true) {
       draw_rover_history_image(position1_array);
       // console.log("I just drew the history image...now on to the get_next_rover_array")
-      get_next_rover_array_setup();
+      draw_explosion(position2_array);
+      setTimeout(get_next_rover_array_setup(),500);
       get_next_rover_array();
       iterateRoverArray_counter = 0;
       iterateRoverArray();
@@ -242,12 +243,40 @@ function draw_rover_history_image(position_array) {
 }
 
 function draw_explosion(danger_zone) {
-    var history_img = new Image;
-    history_img.src = "/rover_explosion.gif";
+
+    var explosionFrames = [
+      '/explosion_frames/frame_00_delay-0.1s.gif', '/explosion_frames/frame_01_delay-0.1s.gif', '/explosion_frames/frame_02_delay-0.1s.gif', '/explosion_frames/frame_03_delay-0.1s.gif', '/explosion_frames/frame_04_delay-0.1s.gif', '/explosion_frames/frame_05_delay-0.1s.gif', '/explosion_frames/frame_06_delay-0.1s.gif', '/explosion_frames/frame_07_delay-0.1s.gif', '/explosion_frames/frame_08_delay-0.1s.gif', '/explosion_frames/frame_09_delay-0.1s.gif', '/explosion_frames/frame_10_delay-0.1s.gif', '/explosion_frames/frame_11_delay-0.1s.gif', '/explosion_frames/frame_12_delay-0.1s.gif', '/explosion_frames/frame_13_delay-0.1s.gif', '/explosion_frames/frame_14_delay-0.1s.gif', '/explosion_frames/frame_15_delay-0.1s.gif', '/explosion_frames/frame_16_delay-0.1s.gif', '/explosion_frames/frame_17_delay-0.1s.gif', '/explosion_frames/frame_18_delay-0.1s.gif', '/explosion_frames/frame_19_delay-0.1s.gif', '/explosion_frames/frame_20_delay-0.1s.gif', '/explosion_frames/frame_21_delay-0.1s.gif', '/explosion_frames/frame_22_delay-0.1s.gif', '/explosion_frames/frame_23_delay-0.1s.gif', '/explosion_frames/frame_24_delay-0.1s.gif', '/explosion_frames/frame_25_delay-0.1s.gif', '/explosion_frames/frame_26_delay-0.1s.gif', '/explosion_frames/frame_27_delay-0.1s.gif', '/explosion_frames/frame_28_delay-0.1s.gif', '/explosion_frames/frame_29_delay-0.1s.gif', '/explosion_frames/frame_30_delay-0.1s.gif', '/explosion_frames/frame_31_delay-0.1s.gif']
+
+
+    // history_img.src = "/explosion_frames/frame_23_delay-0.1s.gif";
     var history_canvas = document.getElementById('historyCanvas');
     var history_ctx = history_canvas.getContext("2d");
-    var x_position = (danger_zone[0] * multiplyer) + 0.25 * multiplyer;
-    var y_position = (((grid_size[1]) - danger_zone[1]) * multiplyer) + 0.25 * multiplyer
+    var x_position = (danger_zone[0] * multiplyer) + 0.10 * multiplyer;
+    var y_position = (((grid_size[1]) - danger_zone[1]) * multiplyer) + 0.10 * multiplyer
+    var pic;
+    var explosionCounter = 0;
+    var history_img = new Image;
+    history_img.src = '/explosion_frames/frame_00_delay-0.1s.gif';
+
+
+  window.requestAnimationFrame(boom);
+
+  function boom(){
+
+
+
+              history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 0.75, multiplyer * 0.75);
+              console.log("boom");
+
+
+if (explosionCounter < 31) {
+    explosionCounter += 1;
+    history_img.src = explosionFrames[explosionCounter];
+    window.requestAnimationFrame(boom);
+} else {
+  console.log("finished boom");
+}
+}
 }
 
 

@@ -23,7 +23,9 @@
   <img id="rover_image" style="display: none;" src="red-rover.png">
 
 
-
+  <audio id="boomAudio">
+    <source src="/explosion_sound.mp3" type="audio/mpeg">
+  </audio>
 
 
   <%rover1_route = session[:rover_routes]["rover1"]%>
@@ -243,6 +245,9 @@ function draw_rover_history_image(position_array) {
 }
 
 function draw_explosion(danger_zone) {
+
+  var sound = document.getElementById("boomAudio"); 
+    sound.play();
 
     var explosionFrames = [
       '/explosion_frames/frame_00_delay-0.1s.gif', '/explosion_frames/frame_01_delay-0.1s.gif', '/explosion_frames/frame_02_delay-0.1s.gif', '/explosion_frames/frame_03_delay-0.1s.gif', '/explosion_frames/frame_04_delay-0.1s.gif', '/explosion_frames/frame_05_delay-0.1s.gif', '/explosion_frames/frame_06_delay-0.1s.gif', '/explosion_frames/frame_07_delay-0.1s.gif', '/explosion_frames/frame_08_delay-0.1s.gif', '/explosion_frames/frame_09_delay-0.1s.gif', '/explosion_frames/frame_10_delay-0.1s.gif', '/explosion_frames/frame_11_delay-0.1s.gif', '/explosion_frames/frame_12_delay-0.1s.gif', '/explosion_frames/frame_13_delay-0.1s.gif', '/explosion_frames/frame_14_delay-0.1s.gif', '/explosion_frames/frame_15_delay-0.1s.gif', '/explosion_frames/frame_16_delay-0.1s.gif', '/explosion_frames/frame_17_delay-0.1s.gif', '/explosion_frames/frame_18_delay-0.1s.gif', '/explosion_frames/frame_19_delay-0.1s.gif', '/explosion_frames/frame_20_delay-0.1s.gif', '/explosion_frames/frame_21_delay-0.1s.gif', '/explosion_frames/frame_22_delay-0.1s.gif', '/explosion_frames/frame_23_delay-0.1s.gif', '/explosion_frames/frame_24_delay-0.1s.gif', '/explosion_frames/frame_25_delay-0.1s.gif', '/explosion_frames/frame_26_delay-0.1s.gif', '/explosion_frames/frame_27_delay-0.1s.gif', '/explosion_frames/frame_28_delay-0.1s.gif', '/explosion_frames/frame_29_delay-0.1s.gif', '/explosion_frames/frame_30_delay-0.1s.gif', '/explosion_frames/frame_31_delay-0.1s.gif']

@@ -14,7 +14,6 @@
     position:absolute; top:0px; left:0px;
     width:600px;
     height:600px;
-
 }
 </style>
 
@@ -45,28 +44,18 @@
 
 <script>
 
-// console.log("You are the coolest dude!");
 var grid_string = '<%= session[:grid_size].to_json %>';
 var grid_size = JSON.parse(grid_string);
-
 var all_rovers_hash = JSON.parse('<%= session[:rover_routes].to_json %>');
 var all_rovers_array = [];
 var rover_array_counter = 0;
-
 var line_x_offset = 0;
 var line_y_offset = 0;
-
-for (var index in all_rovers_hash) {
-  all_rovers_array.push(all_rovers_hash[index]);
-}
-console.log(all_rovers_array);
 var history_canvas = document.getElementById('historyCanvas');
 var history_ctx = history_canvas.getContext("2d");
 var line_color = "red";
 var iterateRoverArray_counter = 0
 var largest_grid_size = Math.max(grid_size[0], grid_size[1]);
-// console.log(`largest_grid_size is ${largest_grid_size}`)
-// console.log(`grid_size is ${grid_size}`)
 var multiplyer = 600 / (largest_grid_size + 1);
 var position1_array = all_rovers_array[0][0];
 var position2_array = all_rovers_array[0][0];
@@ -74,147 +63,145 @@ var explosionArray = [];
 var finished_animation = false;
 var end_of_moves_array = false;
 
+for (var index in all_rovers_hash) {
+  all_rovers_array.push(all_rovers_hash[index]);
+}
 
 
 function drawGrid(grid_size) {
-var c = document.getElementById("grid_canvas");
-var ctx = c.getContext("2d");
-ctx.lineWidth = 1;
-ctx.strokeStyle = "green";
-// ctx.strokeRect(2,2,498,498);
-
-//draw vertical lines
-var i;
-// console.log(`multiplyer is ${multiplyer}`)
-for (i = 0; i < grid_size[0] + 2; i++) {
-    ctx.moveTo(multiplyer * i, 0);
-    ctx.lineTo(multiplyer * i, (grid_size[1] + 1) * multiplyer);
-    ctx.stroke();
+    var c = document.getElementById("grid_canvas");
+    var ctx = c.getContext("2d");
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "green";
+    // ctx.strokeRect(2,2,498,498);
+    //draw vertical lines
+    var i;
+    // console.log(`multiplyer is ${multiplyer}`)
+    for (i = 0; i < grid_size[0] + 2; i++) {
+        ctx.moveTo(multiplyer * i, 0);
+        ctx.lineTo(multiplyer * i, (grid_size[1] + 1) * multiplyer);
+        ctx.stroke();
+    }
+    //draw horizontal lines
+    // console.log(`multiplyer is ${multiplyer}`)
+    for (i = 0; i < grid_size[1] + 2; i++) {
+        ctx.moveTo(0, multiplyer * i);
+        ctx.lineTo((grid_size[0] + 1) * multiplyer, multiplyer * i);
+        ctx.stroke();
+    }
 }
 
-//draw horizontal lines
-// console.log(`multiplyer is ${multiplyer}`)
-for (i = 0; i < grid_size[1] + 2; i++) {
-    ctx.moveTo(0, multiplyer * i);
-    ctx.lineTo((grid_size[0] + 1) * multiplyer, multiplyer * i);
-    ctx.stroke();
-}
-}
 
 function get_next_rover_array() {
     console.log("Hitting get_next_rover_array")
-
     current_rover_array = all_rovers_array[rover_array_counter];
     console.log(`current_rover_array is ${current_rover_array}`);
     rover_array_counter += 1
     end_of_moves_array = false;
     iterateRoverArray_counter = 0;
-    iterateRoverArray();
+    // iterateRoverArray();
     console.log("Sending to traffic_cop from get_next_rover_array")
-    traffic_cop();
+    // traffic_cop();
 }
 
-function traffic_cop() {
 
+function traffic_cop() {
         // console.log("Hitting traffic_cop")
         console.log(`postion1_array in traffic_cop is ${position1_array}`);
         console.log(`postion2_array in traffic_cop is ${position2_array}`);
+    // if(check_if_explosion()) {
+    //     // console.log("Hitting check_if_explosion conditional")
+    //     // window.setTimeout(draw_explosion(position2_array), 2000);
+    //     draw_explosion(position2_array);
+    //     get_next_rover_array_setup();
+    //     get_next_rover_array();
+    //
+    // } else
 
-    if(check_if_explosion()) {
-        // console.log("Hitting check_if_explosion conditional")
-        // window.setTimeout(draw_explosion(position2_array), 2000);
-        draw_explosion(position2_array);
+    if(end_of_moves_array == true) {
+        draw_rover_history_image(position2_array);
+        if(check_if_explosion()) {
+            draw_explosion(position2_array);
+        } else {
+          explosionArray.push(position2_array);
+        }
+        setTimeout(get_next_rover_array_setup(),2000);
         get_next_rover_array_setup();
         get_next_rover_array();
-
-    } else if(end_of_moves_array == true) {
-      draw_rover_history_image(position1_array);
-      // console.log("I just drew the history image...now on to the get_next_rover_array")
-      draw_explosion(position2_array);
-      setTimeout(get_next_rover_array_setup(),500);
-      get_next_rover_array();
-      iterateRoverArray_counter = 0;
-      iterateRoverArray();
+        iterateRoverArray();
+        traffic_cop();
 
     } else if(check_if_rotation()) {
-
-      // rotate_rover();
         finished_animation = false;
         rotate_rover();
         wait_for_animation();;
-
         function wait_for_animation(){
           if(finished_animation == true){
-            iterateRoverArray();
-            traffic_cop();
+              if(check_if_explosion()) {
+                explode();
+              }
+              iterateRoverArray();
+              traffic_cop();
           } else {
             setTimeout(wait_for_animation,10);
           }
         }
 
-
-
     } else if(check_if_move()) {
-      finished_animation = false;
-          move_rover();
-
-          wait_for_animation();
-
-          function wait_for_animation(){
-            if(finished_animation == true){
-              // console.log("finished_animation is true")
-              iterateRoverArray();
-              traffic_cop();
-            } else {
-              setTimeout(wait_for_animation,50);
+        finished_animation = false;
+        move_rover();
+        wait_for_animation();
+        function wait_for_animation(){
+          if(finished_animation == true){
+            if(check_if_explosion()) {
+                explode();
             }
+            iterateRoverArray();
+            traffic_cop();
+          } else {
+            setTimeout(wait_for_animation,50);
           }
-
+        }
         }
 
+}
 
-    // else {
-        // console.log("Hitting else conditional in traffic_cop")
-    //     // explosionArray.push(position2_array);
-        // console.log(`explosionArray is ${explosionArray}`)
-    //     draw_rover_history_image(position2_array);
-    //     iterateRoverArray();
-    //     get_next_rover_array();
-    // }
-    // finished_animation = false;
+
+function explode(){
+  draw_explosion(position2_array);
+
+  for(pos of explosionArray){
+    if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
+      var index = explosionArray.indexOf(pos);
+    }
+  }
+
+  explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
+
+  get_next_rover_array_setup();
+  get_next_rover_array();
 }
 
 
 function iterateRoverArray() {
-
-
+  console.log(`iterateRoverArray_counter at the beginning of iterateRoverArray is ${iterateRoverArray_counter}`);
   position1_array = current_rover_array[iterateRoverArray_counter];
   position2_array = current_rover_array[iterateRoverArray_counter + 1];
-
-
-  // console.log("I am now iterating the rover array...watch me iterate!!!")
     if (position2_array === undefined) { // this happens if we have come to the end of the current_rover_array...this information goes to check_if_explosion
       console.log("position2_array is undefined");
-
       // console.log("this happens if we have come to the end of the current_rover_array")
-      // consol
         position2_array = current_rover_array[current_rover_array.length -1 ];
         position1_array = current_rover_array[current_rover_array.length -1 ];
         end_of_moves_array = true;
-    } else if (iterateRoverArray_counter == 0) { // this happens if it is the first move of every rover...this information goes to check_if_explosion
-      // console.log("this happens if it is the first move of every rover")
 
-        position1_array = current_rover_array[0];
-        position2_array = (current_rover_array[1]);
     } else {
-      // console.log("ELSE ELSE ELSE in iterate function");
-
         position1_array = current_rover_array[iterateRoverArray_counter]; //this happens for every other iterated position in current_rover_array...information is sent to check_if_explosion
         position2_array = current_rover_array[iterateRoverArray_counter + 1];
     }
+    console.log(`postion1_array in iterate is ${position1_array}`);
+    console.log(`postion2_array in iterate is ${position2_array}`);
       iterateRoverArray_counter += 1;
 }
-
 
 
 function draw_rover_history_image(position_array) {
@@ -244,15 +231,12 @@ function draw_rover_history_image(position_array) {
     // console.log("At the end of draw_rotation_image");
 }
 
+
 function draw_explosion(danger_zone) {
-
-  var sound = document.getElementById("boomAudio"); 
+  var sound = document.getElementById("boomAudio");
     sound.play();
-
     var explosionFrames = [
       '/explosion_frames/frame_00_delay-0.1s.gif', '/explosion_frames/frame_01_delay-0.1s.gif', '/explosion_frames/frame_02_delay-0.1s.gif', '/explosion_frames/frame_03_delay-0.1s.gif', '/explosion_frames/frame_04_delay-0.1s.gif', '/explosion_frames/frame_05_delay-0.1s.gif', '/explosion_frames/frame_06_delay-0.1s.gif', '/explosion_frames/frame_07_delay-0.1s.gif', '/explosion_frames/frame_08_delay-0.1s.gif', '/explosion_frames/frame_09_delay-0.1s.gif', '/explosion_frames/frame_10_delay-0.1s.gif', '/explosion_frames/frame_11_delay-0.1s.gif', '/explosion_frames/frame_12_delay-0.1s.gif', '/explosion_frames/frame_13_delay-0.1s.gif', '/explosion_frames/frame_14_delay-0.1s.gif', '/explosion_frames/frame_15_delay-0.1s.gif', '/explosion_frames/frame_16_delay-0.1s.gif', '/explosion_frames/frame_17_delay-0.1s.gif', '/explosion_frames/frame_18_delay-0.1s.gif', '/explosion_frames/frame_19_delay-0.1s.gif', '/explosion_frames/frame_20_delay-0.1s.gif', '/explosion_frames/frame_21_delay-0.1s.gif', '/explosion_frames/frame_22_delay-0.1s.gif', '/explosion_frames/frame_23_delay-0.1s.gif', '/explosion_frames/frame_24_delay-0.1s.gif', '/explosion_frames/frame_25_delay-0.1s.gif', '/explosion_frames/frame_26_delay-0.1s.gif', '/explosion_frames/frame_27_delay-0.1s.gif', '/explosion_frames/frame_28_delay-0.1s.gif', '/explosion_frames/frame_29_delay-0.1s.gif', '/explosion_frames/frame_30_delay-0.1s.gif', '/explosion_frames/frame_31_delay-0.1s.gif']
-
-
     // history_img.src = "/explosion_frames/frame_23_delay-0.1s.gif";
     var history_canvas = document.getElementById('historyCanvas');
     var history_ctx = history_canvas.getContext("2d");
@@ -262,18 +246,10 @@ function draw_explosion(danger_zone) {
     var explosionCounter = 0;
     var history_img = new Image;
     history_img.src = '/explosion_frames/frame_00_delay-0.1s.gif';
-
-
   window.requestAnimationFrame(boom);
-
   function boom(){
-
-
-
               history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 0.75, multiplyer * 0.75);
               console.log("boom");
-
-
 if (explosionCounter < 31) {
     explosionCounter += 1;
     history_img.src = explosionFrames[explosionCounter];
@@ -283,8 +259,6 @@ if (explosionCounter < 31) {
 }
 }
 }
-
-
 
 
 function get_next_rover_array_setup() {
@@ -297,69 +271,64 @@ function get_next_rover_array_setup() {
     // line_y_offset = line_y_offset;
 }
 
+
 function check_if_explosion() {
-    // console.log("Hitting check_if_explosion function")
-    // console.log(`This is the explosionArray ${explosionArray}`)
-    if (explosionArray.includes(position1_array) || explosionArray.includes(position2_array)) {
+    explosionCounter = 0;
+    for(positions of explosionArray){
+      if(positions[0] == position2_array[0] && positions[1] == position2_array[1]){
+        explosionCounter += 1;
+      }
+    }
+
+    if(explosionCounter > 0) {
         return true;
     } else {
         return false;
     }
 }
 
-    function check_if_move() {
-      // console.log("hitting check_if_move function")
-        // console.log(`position1_array[2] is ${position1_array[2]}`);
-        // console.log(`position2_array[2] is ${position2_array[2]}`);
-        if (position1_array[2] == position2_array[2]) {
-            // console.log("check_if_move is returning true")
-            return true;
-        } else {
-          // console.log("check_if_move is returning false")
 
-            return false;
-        }
+function check_if_move() {
+    if (position1_array[2] == position2_array[2]) {
+        return true;
+    } else {
+        return false;
     }
+}
 
 
-    function move_rover() {
-        var x = (position1_array[0] * multiplyer) + 0.25 * multiplyer;
-        // console.log(`x at its a move is ${x}`);
-        var y = (((grid_size[1]) - position1_array[1]) * multiplyer) + 0.25 * multiplyer;
-        // console.log(`y at its a move is ${y}`);
-        var direction = position1_array[2];
-        var loops = multiplyer;
-        // console.log(`loops at this point in the move is ${loops}`);
-        setTimeout(drawRover(x, y, direction, loops),500);
+function move_rover() {
+    var x = (position1_array[0] * multiplyer) + 0.25 * multiplyer;
+    var y = (((grid_size[1]) - position1_array[1]) * multiplyer) + 0.25 * multiplyer;
+    var direction = position1_array[2];
+    var loops = multiplyer;
+    setTimeout(drawRover(x, y, direction, loops),500);
+}
+
+
+function check_if_rotation() {
+    if (position1_array[2] != position2_array[2]) {
+        return true //indicates that the the next action is a rotation
+    } else {
+        return false;
     }
+}
 
 
-    function check_if_rotation() {
-        if (position1_array[2] != position2_array[2]) {
-            return true //indicates that the the next action is a rotation
-        } else {
-            return false;
-        }
-    }
+function rotate_rover() {
+    var x = (position2_array[0] * multiplyer) + 0.25 * multiplyer;
+    var y = ((grid_size[1] - position2_array[1]) * multiplyer) + 0.25 * multiplyer;
+    var direction = position2_array[2];
+    var loops = 1;
+    drawRover(x, y, direction, loops);
+}
 
-
-    function rotate_rover() {
-        // console.log("It's a rotation");
-        var x = (position2_array[0] * multiplyer) + 0.25 * multiplyer;
-        var y = ((grid_size[1] - position2_array[1]) * multiplyer) + 0.25 * multiplyer;
-        // console.log(`x is currently ${x}`);
-        // console.log(`y is currently ${y}`);
-        var direction = position2_array[2];
-        var loops = 1;
-        drawRover(x, y, direction, loops);
-    }
 
 function drawRover(x, y, direction, loops) {
 var animation_counter = 1;
 var imgTag = new Image();
 var rover_canvas = document.getElementById('roverCanvas');
 var ctx = rover_canvas.getContext("2d");
-
 animate();
 imgTag.src = "/red-rover.png"; // load image
 function animate() {
@@ -396,9 +365,7 @@ function animate() {
     }
     // console.log("DRAW DRAW DRAW");
     ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5);
-
     history_ctx.lineWidth = 2;
-
     history_ctx.beginPath();
     history_ctx.strokeStyle = line_color;
     history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * multiplyer, (previous_y + line_y_offset) + 0.25 * multiplyer);
@@ -417,16 +384,13 @@ function animate() {
     }
 }
   // console.log("Should be returning to function call in traffic_cop");
-}
 
+
+}
 function create_div() {
-// setTimeout(drawGrid(grid_size),1000000);
 drawGrid(grid_size);
-// setTimeout(draw_rover_history_image(position1_array),500);
-// draw_rover_history_image(position1_array)
-// // setTimeout(draw_rover_history_image(position1_array),5000);
-// position1_array = all_rovers_array[0][0];
-// position2_array = all_rovers_array[0][1];
 get_next_rover_array();
+iterateRoverArray();
+traffic_cop();
 }
 </script>

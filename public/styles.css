@@ -153,3 +153,10 @@ textarea {
     font-size: 1rem;
     color: red;
   }
+
+  .whiz {
+    border: solid;
+    border-color: dark-gray;
+    border-width: 10px;
+    border-radius: 10px;
+  }

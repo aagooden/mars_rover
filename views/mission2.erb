@@ -10,7 +10,7 @@
     height:600px;
     margin: 0 auto;
 }
-#grid_canvas,#roverCanvas,#historyCanvas{
+#historyCanvas,#grid_canvas,#roverCanvas{
     position:absolute; top:0px; left:0px;
     width:600px;
     height:600px;
@@ -31,13 +31,11 @@
   <%rover2_route = session[:rover_routes]["rover2"]%>
 
 
-  <!-- <div id = "load_div"></div> -->
-
-  <!-- <div id = "placehere"></div> -->
-  <div id="cheese">
+  <div id="cheese" class = "whiz">
     <canvas  id="grid_canvas" class="mars_pic" width="600" height="600"></canvas>
-    <canvas  id="roverCanvas" width="600" height="600"></canvas>
     <canvas  id="historyCanvas" width="600" height="600"></canvas>
+    <canvas  id="roverCanvas" width="600" height="600"></canvas>
+
   </div>
 
 </body>
@@ -57,8 +55,6 @@ var line_color = "red";
 var iterateRoverArray_counter = 0
 var largest_grid_size = Math.max(grid_size[0], grid_size[1]);
 var multiplyer = 600 / (largest_grid_size + 1);
-var position1_array = all_rovers_array[0][0];
-var position2_array = all_rovers_array[0][0];
 var explosionArray = [];
 var finished_animation = false;
 var end_of_moves_array = false;
@@ -66,6 +62,9 @@ var end_of_moves_array = false;
 for (var index in all_rovers_hash) {
   all_rovers_array.push(all_rovers_hash[index]);
 }
+
+var position1_array = all_rovers_array[0][0];
+var position2_array = all_rovers_array[0][0];
 
 
 function drawGrid(grid_size) {
@@ -155,9 +154,11 @@ function traffic_cop() {
           if(finished_animation == true){
             if(check_if_explosion()) {
                 explode();
+            } else {
+              iterateRoverArray();
+              traffic_cop();
             }
-            iterateRoverArray();
-            traffic_cop();
+
           } else {
             setTimeout(wait_for_animation,50);
           }
@@ -169,6 +170,35 @@ function traffic_cop() {
 
 function explode(){
   draw_explosion(position2_array);
+
+  setTimeout(clearExplosion,700);
+
+  function clearExplosion(){
+    var history_canvas = document.getElementById('historyCanvas');
+    var history_ctx = history_canvas.getContext("2d");
+    var history_img = new Image;
+    history_img.src = '/scorch.png';
+    var x_position = (position2_array[0] * multiplyer);
+    var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
+    history_ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears explosion and rovers at that position.
+
+    var rover_canvas = document.getElementById('roverCanvas');
+    var ctx = rover_canvas.getContext("2d");
+    ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears last rover draw from rover canvas(ctx).
+
+    setTimeout(drawScorch, 10);
+  function drawScorch() {
+    var history_canvas = document.getElementById('historyCanvas');
+    var history_ctx = history_canvas.getContext("2d");
+    var history_img = new Image;
+    history_img.src = '/scorch.png';
+    history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 1, multiplyer * 1);
+    console.log("drew scorch");
+  }
+
+  iterateRoverArray();
+  traffic_cop();
+  }
 
   for(pos of explosionArray){
     if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
@@ -187,7 +217,7 @@ function iterateRoverArray() {
   console.log(`iterateRoverArray_counter at the beginning of iterateRoverArray is ${iterateRoverArray_counter}`);
   position1_array = current_rover_array[iterateRoverArray_counter];
   position2_array = current_rover_array[iterateRoverArray_counter + 1];
-    if (position2_array === undefined) { // this happens if we have come to the end of the current_rover_array...this information goes to check_if_explosion
+    if (position2_array === undefined) { // this happens if we have come to the end of the current_rover_array.
       console.log("position2_array is undefined");
       // console.log("this happens if we have come to the end of the current_rover_array")
         position2_array = current_rover_array[current_rover_array.length -1 ];
@@ -225,8 +255,6 @@ function draw_rover_history_image(position_array) {
     var history_ctx = history_canvas.getContext("2d");
     var x_position = (position_array[0] * multiplyer) + 0.25 * multiplyer;
     var y_position = (((grid_size[1]) - position_array[1]) * multiplyer) + 0.25 * multiplyer
-    // console.log(x_position);
-    // console.log(y_position);
     history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 0.5, multiplyer * 0.5);
     // console.log("At the end of draw_rotation_image");
 }
@@ -234,9 +262,14 @@ function draw_rover_history_image(position_array) {
 
 function draw_explosion(danger_zone) {
   var sound = document.getElementById("boomAudio");
-    sound.play();
+    sound.load();
+
+    function playSound(){
+      sound.play();
+    }
+    setTimeout(playSound,100);
     var explosionFrames = [
-      '/explosion_frames/frame_00_delay-0.1s.gif', '/explosion_frames/frame_01_delay-0.1s.gif', '/explosion_frames/frame_02_delay-0.1s.gif', '/explosion_frames/frame_03_delay-0.1s.gif', '/explosion_frames/frame_04_delay-0.1s.gif', '/explosion_frames/frame_05_delay-0.1s.gif', '/explosion_frames/frame_06_delay-0.1s.gif', '/explosion_frames/frame_07_delay-0.1s.gif', '/explosion_frames/frame_08_delay-0.1s.gif', '/explosion_frames/frame_09_delay-0.1s.gif', '/explosion_frames/frame_10_delay-0.1s.gif', '/explosion_frames/frame_11_delay-0.1s.gif', '/explosion_frames/frame_12_delay-0.1s.gif', '/explosion_frames/frame_13_delay-0.1s.gif', '/explosion_frames/frame_14_delay-0.1s.gif', '/explosion_frames/frame_15_delay-0.1s.gif', '/explosion_frames/frame_16_delay-0.1s.gif', '/explosion_frames/frame_17_delay-0.1s.gif', '/explosion_frames/frame_18_delay-0.1s.gif', '/explosion_frames/frame_19_delay-0.1s.gif', '/explosion_frames/frame_20_delay-0.1s.gif', '/explosion_frames/frame_21_delay-0.1s.gif', '/explosion_frames/frame_22_delay-0.1s.gif', '/explosion_frames/frame_23_delay-0.1s.gif', '/explosion_frames/frame_24_delay-0.1s.gif', '/explosion_frames/frame_25_delay-0.1s.gif', '/explosion_frames/frame_26_delay-0.1s.gif', '/explosion_frames/frame_27_delay-0.1s.gif', '/explosion_frames/frame_28_delay-0.1s.gif', '/explosion_frames/frame_29_delay-0.1s.gif', '/explosion_frames/frame_30_delay-0.1s.gif', '/explosion_frames/frame_31_delay-0.1s.gif']
+      '/explosion_frames/frame_00_delay-0.1s.gif', '/explosion_frames/frame_01_delay-0.1s.gif', '/explosion_frames/frame_02_delay-0.1s.gif', '/explosion_frames/frame_03_delay-0.1s.gif', '/explosion_frames/frame_04_delay-0.1s.gif', '/explosion_frames/frame_05_delay-0.1s.gif', '/explosion_frames/frame_06_delay-0.1s.gif', '/explosion_frames/frame_07_delay-0.1s.gif', '/explosion_frames/frame_08_delay-0.1s.gif', '/explosion_frames/frame_09_delay-0.1s.gif', '/explosion_frames/frame_10_delay-0.1s.gif', '/explosion_frames/frame_11_delay-0.1s.gif', '/explosion_frames/frame_12_delay-0.1s.gif', '/explosion_frames/frame_13_delay-0.1s.gif', '/explosion_frames/frame_14_delay-0.1s.gif', '/explosion_frames/frame_15_delay-0.1s.gif', '/explosion_frames/frame_16_delay-0.1s.gif', '/explosion_frames/frame_17_delay-0.1s.gif', '/explosion_frames/frame_18_delay-0.1s.gif', '/explosion_frames/frame_19_delay-0.1s.gif', '/explosion_frames/frame_20_delay-0.1s.gif', '/explosion_frames/frame_21_delay-0.1s.gif', '/explosion_frames/frame_22_delay-0.1s.gif', '/explosion_frames/frame_23_delay-0.1s.gif', '/explosion_frames/frame_24_delay-0.1s.gif', '/explosion_frames/frame_25_delay-0.1s.gif', '/explosion_frames/frame_26_delay-0.1s.gif', '/explosion_frames/frame_27_delay-0.1s.gif', '/explosion_frames/frame_28_delay-0.1s.gif', '/explosion_frames/frame_29_delay-0.1s.gif', '/explosion_frames/frame_30_delay-0.1s.gif', '/scorch.png']
     // history_img.src = "/explosion_frames/frame_23_delay-0.1s.gif";
     var history_canvas = document.getElementById('historyCanvas');
     var history_ctx = history_canvas.getContext("2d");
@@ -263,7 +296,7 @@ if (explosionCounter < 31) {
 
 function get_next_rover_array_setup() {
     // selects a random color for rover trail.
-    // line_color = '#' + (function co(lor) {return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);})('');
+    line_color = '#' + (function co(lor) {return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);})('');
     line_x_offset = 3;
     line_y_offset = 3;
     // line_x_offset = Math.floor(Math.random()*6) + 1;

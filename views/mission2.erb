@@ -38,6 +38,11 @@
 
   </div>
 
+  <img src="/red-rover.png" hidden id="roverNorth">
+  <img src="/red-rover_S.png" hidden id="roverSouth">
+  <img src="/red-rover_E.png" hidden id="roverEast">
+  <img src="/red-rover_W.png" hidden id="roverWest">
+
 </body>
 
 <script>
@@ -434,11 +439,6 @@ function drawRover(x, y, direction, loops) {
 
 var animation_counter = 1;
 var imgTag = new Image();
-imgTag.src = "/red-rover.png";
-imgTag.src = "/red-rover_E.png";
-imgTag.src = "/red-rover_S.png";
-imgTag.src = "/red-rover_W.png";
-
 
 var rover_canvas = document.getElementById('roverCanvas');
 var ctx = rover_canvas.getContext("2d");
@@ -458,30 +458,35 @@ function animate() {
     var previous_x = x;
     var previous_y = y;
     // var imgTag = new Image();
+
+    // imgTag.onload = function(){
+
+
     switch (direction) {
         case "N":
-            imgTag.src = "/red-rover.png";
+            imgTag = document.getElementById('roverNorth');
+            // imgTag.src = "/red-rover.png";
             y -= 1;
             break;
         case "E":
-            imgTag.src = "/red-rover_E.png";
+            imgTag = document.getElementById('roverEast');
+            // imgTag.src = "/red-rover_E.png";
             x += 1;
             break;
         case "S":
-            imgTag.src = "/red-rover_S.png";
+            imgTag = document.getElementById('roverSouth');
+            // imgTag.src = "/red-rover_S.png";
             y += 1;
             break;
         case "W":
-            imgTag.src = "/red-rover_W.png";
+            imgTag = document.getElementById('roverWest');
+            // imgTag.src = "/red-rover_W.png";
             x -= 1;
             break;
     }
 
+      ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5);
 
-    imgTag.onload = (ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5));
-
-    setTimeout(drawLine,10);
-    function drawLine(){
     if(drawRoverMarker == true){
         history_ctx.font=`${0.25 * multiplyer}px Georgia`;
         history_ctx.fillText(`R-${rover_array_counter}`, x + 0.1 * multiplyer, y + 0.4 * multiplyer);
@@ -494,7 +499,6 @@ function animate() {
       history_ctx.lineTo((x + line_x_offset) + 0.25 * multiplyer, (y + line_y_offset) + 0.25 * multiplyer);
       history_ctx.stroke();
       history_ctx.closePath();
-    }
 
     if (animation_counter < loops) {
         animation_counter += 1;

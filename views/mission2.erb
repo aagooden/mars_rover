@@ -473,7 +473,7 @@ function animate() {
 
     imgTag.onload = (ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5));
 
-    window.requestAnimationFrame(drawLine)
+    setTimeout(drawLine,10);
     function drawLine(){
     if(drawRoverMarker == true){
         history_ctx.font=`${0.25 * multiplyer}px Georgia`;

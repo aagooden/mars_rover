@@ -8,6 +8,8 @@ get "/" do
 end
 
 
+
+
 post "/mission_info" do
 
 	grid_x_value = params[:grid_x_value]
@@ -55,4 +57,6 @@ post "/mission_info" do
 	erb :mission2
 end
 
-# @rovers["rover#{x}"] = Rover.new
+post "/again" do
+	erb :welcome
+end

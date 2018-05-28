@@ -41,6 +41,10 @@
   <img src="/red-rover_E.png" hidden id="roverEast">
   <img src="/red-rover_W.png" hidden id="roverWest">
 
+  <form  action="again" method="post">
+    <input type="submit" value="Try Again">
+  </form>
+
 </body>
 
 <script>
@@ -64,6 +68,7 @@ var end_of_moves_array = false;
 var first_move = true;
 var done = false;
 var drawRoverMarker = true;
+var firstPosition = [];
 
 for (var index in all_rovers_hash) {
   all_rovers_array.push(all_rovers_hash[index]);
@@ -121,13 +126,15 @@ function traffic_cop() {
         // console.log("Hitting traffic_cop")
         console.log(`postion1_array in traffic_cop is ${position1_array}`);
         console.log(`postion2_array in traffic_cop is ${position2_array}`);
+        console.log("The explosionArray is...");
+        console.log(explosionArray);
 
     if(first_move == true){
       console.log("It is the first move");
-        position2_array = position1_array;
-      if(check_if_explosion()){
+        // position2_array = position1_array;
+      if(check_if_explosion(position1_array)){
 
-        explode();
+        explode(position1_array);
       } else {
       first_move = false;
       drawRoverMarker = true;
@@ -135,7 +142,7 @@ function traffic_cop() {
       }
     } else if(end_of_moves_array == true) {
         draw_rover_history_image(position2_array);
-        if(check_if_explosion()) {
+        if(check_if_explosion(position2_array)) {
             draw_explosion(position2_array);
         } else {
           explosionArray.push(position2_array);
@@ -152,8 +159,8 @@ function traffic_cop() {
         wait_for_animation();;
         function wait_for_animation(){
           if(finished_animation == true){
-              if(check_if_explosion()) {
-                explode();
+              if(check_if_explosion(position2_array)) {
+                explode(position2_array);
               }
               iterateRoverArray();
               traffic_cop();
@@ -168,8 +175,8 @@ function traffic_cop() {
         wait_for_animation();
         function wait_for_animation(){
           if(finished_animation == true){
-            if(check_if_explosion()) {
-                explode();
+            if(check_if_explosion(position2_array)) {
+                explode(position2_array);
             } else {
               iterateRoverArray();
               traffic_cop();
@@ -184,62 +191,57 @@ function traffic_cop() {
 }
 
 
-function explode(){
+function explode(bangZone){
+  console.log("The bangZone is...");
+  console.log(bangZone);
     done = false;
-    draw_explosion(position2_array);
+    draw_explosion(bangZone);
     wait_for_explosion();
     function wait_for_explosion(){
       if(done == false){
         setTimeout(wait_for_explosion,1);
       } else {
         done = false;
-        setTimeout(playExplosionSound,10);
+        setTimeout(playExplosionSound,1);
         wait_for_sound();
         function wait_for_sound(){
           if(done == false){
             setTimeout(wait_for_sound,1);
           } else {
-
-        done = false;
-        setTimeout(clearExplosion,100);
-        wait_for_clear();
-        function wait_for_clear(){
-          if(done == false){
-            setTimeout(wait_for_clear,1);
-          } else {
             done = false;
-            setTimeout(drawScorch,100);
-            wait_for_scorch();
-            function wait_for_scorch(){
+            setTimeout(clearExplosion(bangZone),100);
+            wait_for_clear();
+            function wait_for_clear(){
               if(done == false){
-                setTimeout(wait_for_scorch,1);
+                setTimeout(wait_for_clear,1);
               } else {
+                done = false;
+                setTimeout(drawScorch(bangZone),100);
+                wait_for_scorch();
+                function wait_for_scorch(){
+                  if(done == false){
+                    setTimeout(wait_for_scorch,1);
+                  } else {
+                    for(pos of explosionArray){
+                      if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
+                        var index = explosionArray.indexOf(pos);
+                      }
+                    }
+                    explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
 
-
-                for(pos of explosionArray){
-                  if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
-                    var index = explosionArray.indexOf(pos);
+                    get_next_rover_array_setup();
+                    get_next_rover_array();
+                    iterateRoverArray();
+                    traffic_cop();
                   }
                 }
-                explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
-
-                get_next_rover_array_setup();
-                get_next_rover_array();
-                iterateRoverArray();
-                traffic_cop();
               }
             }
           }
         }
       }
-      }
-      }
     }
   }
-
-
-
-// }
 
 
 function playExplosionSound () {
@@ -250,13 +252,13 @@ function playExplosionSound () {
 }
 
 
-function clearExplosion(){
+function clearExplosion(bangZone){
   var history_canvas = document.getElementById('historyCanvas');
   var history_ctx = history_canvas.getContext("2d");
   var history_img = new Image;
   history_img.src = '/scorch.png';
-  var x_position = (position2_array[0] * multiplyer);
-  var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
+  var x_position = (bangZone[0] * multiplyer);
+  var y_position = (((grid_size[1]) - bangZone[1]) * multiplyer);
   history_ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears explosion and rovers at that position.
 
   var rover_canvas = document.getElementById('roverCanvas');
@@ -266,13 +268,13 @@ function clearExplosion(){
 }
 
 
-function drawScorch() {
+function drawScorch(bangZone) {
   console.log("Drawing Scorch");
   var history_canvas = document.getElementById('historyCanvas');
   var history_ctx = history_canvas.getContext("2d");
   var history_img = new Image;
-  var x_position = (position2_array[0] * multiplyer);
-  var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
+  var x_position = (bangZone[0] * multiplyer);
+  var y_position = (((grid_size[1]) - bangZone[1]) * multiplyer);
   history_img.src = '/scorch.png';
   history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 1, multiplyer * 1);
   console.log("drew scorch");
@@ -377,14 +379,14 @@ function get_next_rover_array_setup() {
 }
 
 
-function check_if_explosion() {
+function check_if_explosion(possiblePosition) {
+  console.log(explosionArray);
     explosionCounter = 0;
     for(positions of explosionArray){
-      if(positions[0] == position2_array[0] && positions[1] == position2_array[1]){
+      if(positions[0] == possiblePosition[0] && positions[1] == possiblePosition[1]){
         explosionCounter += 1;
       }
     }
-
     if(explosionCounter > 0) {
         return true;
     } else {

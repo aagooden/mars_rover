@@ -470,25 +470,25 @@ function animate() {
             break;
     }
 
-    // imgTag.onload = drawMainRover;
 
-    // function drawMainRover(){
     imgTag.onload = (ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5));
-    // }
+
+    window.requestAnimationFrame(drawLine)
+    function drawLine(){
     if(drawRoverMarker == true){
-      history_ctx.font=`${0.25 * multiplyer}px Georgia`;
-      history_ctx.fillText(`R-${rover_array_counter}`, x + 0.1 * multiplyer, y + 0.4 * multiplyer);
-      drawRoverMarker = false;
+        history_ctx.font=`${0.25 * multiplyer}px Georgia`;
+        history_ctx.fillText(`R-${rover_array_counter}`, x + 0.1 * multiplyer, y + 0.4 * multiplyer);
+        drawRoverMarker = false;
+      }
+      history_ctx.lineWidth = 2;
+      history_ctx.beginPath();
+      history_ctx.strokeStyle = line_color;
+      history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * multiplyer, (previous_y + line_y_offset) + 0.25 * multiplyer);
+      history_ctx.lineTo((x + line_x_offset) + 0.25 * multiplyer, (y + line_y_offset) + 0.25 * multiplyer);
+      history_ctx.stroke();
+      history_ctx.closePath();
     }
-    history_ctx.lineWidth = 2;
-    history_ctx.beginPath();
-    history_ctx.strokeStyle = line_color;
-    history_ctx.moveTo((previous_x + line_x_offset) + 0.25 * multiplyer, (previous_y + line_y_offset) + 0.25 * multiplyer);
-    history_ctx.lineTo((x + line_x_offset) + 0.25 * multiplyer, (y + line_y_offset) + 0.25 * multiplyer);
-    history_ctx.stroke();
-    history_ctx.closePath();
-    // console.log(`Animation counter is ${animation_counter}`);
-    // console.log(`loops is ${loops}`);
+
     if (animation_counter < loops) {
         animation_counter += 1;
         window.requestAnimationFrame(animate)

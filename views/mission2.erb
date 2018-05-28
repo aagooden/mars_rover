@@ -22,9 +22,7 @@
   <img id="rover_image" style="display: none;" src="red-rover.png">
 
 
-  <audio id="boomAudio">
-    <source src="/explosion_sound.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="boomAudio" source src="/explosion_sound.mp3" type="audio/mpeg" preload="auto"></audio>
 
 
   <%rover1_route = session[:rover_routes]["rover1"]%>
@@ -246,13 +244,8 @@ function explode(){
 
 function playExplosionSound () {
   var sound = document.getElementById("boomAudio");
-    sound.load();
-
-    // function playSound(){
-      sound.play();
-    // }
-    // sound.onload = playSound();
-    done = true;
+  sound.play();
+  done = true;
 }
 
 

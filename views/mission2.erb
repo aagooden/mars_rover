@@ -431,8 +431,15 @@ function rotate_rover() {
 
 
 function drawRover(x, y, direction, loops) {
+
 var animation_counter = 1;
 var imgTag = new Image();
+imgTag.src = "/red-rover.png";
+imgTag.src = "/red-rover_E.png";
+imgTag.src = "/red-rover_S.png";
+imgTag.src = "/red-rover_W.png";
+
+
 var rover_canvas = document.getElementById('roverCanvas');
 var ctx = rover_canvas.getContext("2d");
 animate();
@@ -453,20 +460,20 @@ function animate() {
     // var imgTag = new Image();
     switch (direction) {
         case "N":
-            imgTag.src = "/red-rover.png"
-            y -= 1
+            imgTag.src = "/red-rover.png";
+            y -= 1;
             break;
         case "E":
-            imgTag.src = "/red-rover_E.png"
-            x += 1
+            imgTag.src = "/red-rover_E.png";
+            x += 1;
             break;
         case "S":
-            imgTag.src = "/red-rover_S.png"
-            y += 1
+            imgTag.src = "/red-rover_S.png";
+            y += 1;
             break;
         case "W":
-            imgTag.src = "/red-rover_W.png"
-            x -= 1
+            imgTag.src = "/red-rover_W.png";
+            x -= 1;
             break;
     }
 

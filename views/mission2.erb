@@ -244,6 +244,7 @@ function explode(){
 
 function playExplosionSound () {
   var sound = document.getElementById("boomAudio");
+  sound.load();
   sound.play();
   done = true;
 }

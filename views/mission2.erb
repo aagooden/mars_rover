@@ -59,6 +59,7 @@ var explosionArray = [];
 var finished_animation = false;
 var end_of_moves_array = false;
 var first_move = true;
+var done = false;
 
 for (var index in all_rovers_hash) {
   all_rovers_array.push(all_rovers_hash[index]);
@@ -171,47 +172,80 @@ function traffic_cop() {
 
 
 function explode(){
-  draw_explosion(position2_array);
+    done = false;
+    draw_explosion(position2_array);
+    wait_for_explosion();
+    function wait_for_explosion(){
+      if(done == false){
+        setTimeout(wait_for_explosion,10);
+      } else {
+        done = false;
+        clearExplosion();
+        wait_for_clear();
+        function wait_for_clear(){
+          if(done == false){
+            setTimeout(wait_for_clear,10);
+          } else {
+            done = false;
+            drawScorch();
+            wait_for_scorch();
+            function wait_for_scorch(){
+              if(done == false){
+                setTimeout(wait_for_scorch,10);
+              } else {
 
-  setTimeout(clearExplosion,1000);
 
-  function clearExplosion(){
-    var history_canvas = document.getElementById('historyCanvas');
-    var history_ctx = history_canvas.getContext("2d");
-    var history_img = new Image;
-    history_img.src = '/scorch.png';
-    var x_position = (position2_array[0] * multiplyer);
-    var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
-    history_ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears explosion and rovers at that position.
+                for(pos of explosionArray){
+                  if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
+                    var index = explosionArray.indexOf(pos);
+                  }
+                }
+                explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
 
-    var rover_canvas = document.getElementById('roverCanvas');
-    var ctx = rover_canvas.getContext("2d");
-    ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears last rover draw from rover canvas(ctx).
-
-    setTimeout(drawScorch, 500);
-  function drawScorch() {
-    var history_canvas = document.getElementById('historyCanvas');
-    var history_ctx = history_canvas.getContext("2d");
-    var history_img = new Image;
-    history_img.src = '/scorch.png';
-    history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 1, multiplyer * 1);
-    console.log("drew scorch");
-  }
-
-  iterateRoverArray();
-  traffic_cop();
-  }
-
-  for(pos of explosionArray){
-    if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
-      var index = explosionArray.indexOf(pos);
+                get_next_rover_array_setup();
+                get_next_rover_array();
+                iterateRoverArray();
+                traffic_cop();
+              }
+            }
+          }
+        }
+      }
     }
   }
 
-  explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
 
-  get_next_rover_array_setup();
-  get_next_rover_array();
+
+// }
+
+
+function clearExplosion(){
+  var history_canvas = document.getElementById('historyCanvas');
+  var history_ctx = history_canvas.getContext("2d");
+  var history_img = new Image;
+  history_img.src = '/scorch.png';
+  var x_position = (position2_array[0] * multiplyer);
+  var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
+  history_ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears explosion and rovers at that position.
+
+  var rover_canvas = document.getElementById('roverCanvas');
+  var ctx = rover_canvas.getContext("2d");
+  ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears last rover draw from rover canvas(ctx).
+  done = true;
+}
+
+
+function drawScorch() {
+  console.log("Drawing Scorch");
+  var history_canvas = document.getElementById('historyCanvas');
+  var history_ctx = history_canvas.getContext("2d");
+  var history_img = new Image;
+  var x_position = (position2_array[0] * multiplyer);
+  var y_position = (((grid_size[1]) - position2_array[1]) * multiplyer);
+  history_img.src = '/scorch.png';
+  history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 1, multiplyer * 1);
+  console.log("drew scorch");
+  done = true;
 }
 
 
@@ -291,6 +325,7 @@ if (explosionCounter < 31) {
     window.requestAnimationFrame(boom);
 } else {
   console.log("finished boom");
+  done = true;
 }
 }
 }

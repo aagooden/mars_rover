@@ -180,14 +180,14 @@ function explode(){
         setTimeout(wait_for_explosion,10);
       } else {
         done = false;
-        clearExplosion();
+        setTimeout(clearExplosion,100);
         wait_for_clear();
         function wait_for_clear(){
           if(done == false){
             setTimeout(wait_for_clear,10);
           } else {
             done = false;
-            drawScorch();
+            setTimeout(drawScorch,100);
             wait_for_scorch();
             function wait_for_scorch(){
               if(done == false){

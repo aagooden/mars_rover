@@ -321,8 +321,12 @@ function draw_explosion(danger_zone) {
               console.log("boom");
 if (explosionCounter < 31) {
     explosionCounter += 1;
+    history_img = new Image;
     history_img.src = explosionFrames[explosionCounter];
+    history_img.onload=animateBoom;
+    function animateBoom(){
     window.requestAnimationFrame(boom);
+  }
 } else {
   console.log("finished boom");
   done = true;

@@ -188,7 +188,7 @@ function explode(){
     var ctx = rover_canvas.getContext("2d");
     ctx.clearRect(x_position, y_position, multiplyer, multiplyer); // clears last rover draw from rover canvas(ctx).
 
-    setTimeout(drawScorch, 10);
+    setTimeout(drawScorch, 500);
   function drawScorch() {
     var history_canvas = document.getElementById('historyCanvas');
     var history_ctx = history_canvas.getContext("2d");

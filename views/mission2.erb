@@ -6,14 +6,14 @@
   }
   #cheese{
     position:relative;
-    width:600px;
-    height:600px;
+    width:700px;
+    height:700px;
     margin: 0 auto;
 }
 #historyCanvas,#grid_canvas,#roverCanvas{
     position:absolute; top:0px; left:0px;
-    width:600px;
-    height:600px;
+    width:700px;
+    height:700px;
 }
 </style>
 
@@ -32,9 +32,9 @@
 
 
   <div id="cheese" class = "whiz">
-    <canvas  id="grid_canvas" class="mars_pic" width="600" height="600"></canvas>
-    <canvas  id="historyCanvas" width="600" height="600"></canvas>
-    <canvas  id="roverCanvas" width="600" height="600"></canvas>
+    <canvas  id="grid_canvas" class="mars_pic" width="700" height="700"></canvas>
+    <canvas  id="historyCanvas" width="700" height="700"></canvas>
+    <canvas  id="roverCanvas" width="700" height="700"></canvas>
 
   </div>
 
@@ -54,7 +54,7 @@ var history_ctx = history_canvas.getContext("2d");
 var line_color = "red";
 var iterateRoverArray_counter = 0
 var largest_grid_size = Math.max(grid_size[0], grid_size[1]);
-var multiplyer = 600 / (largest_grid_size + 1);
+var multiplyer = 700 / (largest_grid_size + 1);
 var explosionArray = [];
 var finished_animation = false;
 var end_of_moves_array = false;
@@ -91,9 +91,9 @@ function drawGrid(grid_size) {
     }
 
     for (i = 0; i < grid_size[0] + 1; i++) {  // put x and y coordinate numbers on grid
-      ctx.font="60% Georgia";
+      ctx.font=`${0.25 * multiplyer}px Georgia`;
       ctx.fillText(i, (i * multiplyer) + 0.4 * multiplyer, ((grid_size[1]) * multiplyer) + 0.90 * multiplyer);
-      ctx.fillText(i, 5,((grid_size[0] - i) * multiplyer) + 0.55 * multiplyer);
+      ctx.fillText(i, 5,((grid_size[1] - i) * multiplyer) + 0.55 * multiplyer);
     }
 }
 
@@ -173,7 +173,7 @@ function traffic_cop() {
 function explode(){
   draw_explosion(position2_array);
 
-  setTimeout(clearExplosion,700);
+  setTimeout(clearExplosion,1000);
 
   function clearExplosion(){
     var history_canvas = document.getElementById('historyCanvas');
@@ -299,11 +299,11 @@ if (explosionCounter < 31) {
 function get_next_rover_array_setup() {
     // selects a random color for rover trail.
     line_color = '#' + (function co(lor) {return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);})('');
-    line_x_offset = 3;
-    line_y_offset = 3;
-    // line_x_offset = Math.floor(Math.random()*6) + 1;
-    // line_x_offset *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-    // line_y_offset = line_y_offset;
+    // line_x_offset = 3;
+    // line_y_offset = 3;
+    line_x_offset = Math.floor(Math.random()*6) + 1;
+    line_x_offset *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+    line_y_offset = line_x_offset;
 }
 
 
@@ -367,7 +367,7 @@ var ctx = rover_canvas.getContext("2d");
 animate();
 imgTag.src = "/red-rover.png"; // load image
 function animate() {
-    ctx.clearRect(0, 0, 600, 600); // clear canvas
+    ctx.clearRect(0, 0, 700, 700); // clear canvas
     if (y < 0) {
         y = rover_canvas.height;
     } else if (y > rover_canvas.height) {
@@ -400,7 +400,7 @@ function animate() {
     // console.log("DRAW DRAW DRAW");
     ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5);
     if(first_move == true){
-      history_ctx.font="80% Georgia";
+      history_ctx.font=`${0.25 * multiplyer}px Georgia`;
       history_ctx.fillText(`R-${rover_array_counter}`, x + 0.1 * multiplyer, y + 0.4 * multiplyer);
       first_move = false;
     }

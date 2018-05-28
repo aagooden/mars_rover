@@ -323,8 +323,12 @@ function draw_rover_history_image(position_array) {
     var history_ctx = history_canvas.getContext("2d");
     var x_position = (position_array[0] * multiplyer) + 0.25 * multiplyer;
     var y_position = (((grid_size[1]) - position_array[1]) * multiplyer) + 0.25 * multiplyer
+
+    history_img.onload = drawHistImage;
+
+    function drawHistImage(){
     history_ctx.drawImage(history_img, x_position, y_position, multiplyer * 0.5, multiplyer * 0.5);
-    // console.log("At the end of draw_rotation_image");
+    }
 }
 
 
@@ -446,6 +450,7 @@ function animate() {
     }
     var previous_x = x;
     var previous_y = y;
+    // var imgTag = new Image();
     switch (direction) {
         case "N":
             imgTag.src = "/red-rover.png"
@@ -464,8 +469,12 @@ function animate() {
             x -= 1
             break;
     }
-    // console.log("DRAW DRAW DRAW");
-    ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5);
+
+    // imgTag.onload = drawMainRover;
+
+    // function drawMainRover(){
+    imgTag.onload = (ctx.drawImage(imgTag, x, y, multiplyer * 0.5, multiplyer * 0.5));
+    // }
     if(drawRoverMarker == true){
       history_ctx.font=`${0.25 * multiplyer}px Georgia`;
       history_ctx.fillText(`R-${rover_array_counter}`, x + 0.1 * multiplyer, y + 0.4 * multiplyer);

@@ -173,25 +173,25 @@ function traffic_cop() {
 
 function explode(){
     done = false;
-    draw_explosion(position2_array);
+    setTimeout(draw_explosion(position2_array),1000);
     wait_for_explosion();
     function wait_for_explosion(){
       if(done == false){
-        setTimeout(wait_for_explosion,10);
+        setTimeout(wait_for_explosion,1);
       } else {
         done = false;
         setTimeout(clearExplosion,100);
         wait_for_clear();
         function wait_for_clear(){
           if(done == false){
-            setTimeout(wait_for_clear,10);
+            setTimeout(wait_for_clear,1);
           } else {
             done = false;
             setTimeout(drawScorch,100);
             wait_for_scorch();
             function wait_for_scorch(){
               if(done == false){
-                setTimeout(wait_for_scorch,10);
+                setTimeout(wait_for_scorch,1);
               } else {
 
 

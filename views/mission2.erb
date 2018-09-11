@@ -199,21 +199,20 @@ function explode(bangZone){
     clearExplosion(bangZone, function() {
       drawScorch(bangZone, function(){
         console.log("FINISHED WITH SEQUENCE");
+        for(pos of explosionArray){
+          if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
+            var index = explosionArray.indexOf(pos);
+          }
+        }
+        explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
+
+        get_next_rover_array_setup();
+        get_next_rover_array();
+        iterateRoverArray();
+        traffic_cop();
       });
     });
   });
-
-  for(pos of explosionArray){
-    if (pos[0] == position2_array[0] && pos[1] == position2_array[1]){ //selects the correct position from explosion array.  Has to be done this way because directions are not necessarily the same in the position arrays.
-      var index = explosionArray.indexOf(pos);
-    }
-  }
-  explosionArray.splice(index, 1); // deletes the position(where explosion happened) from explosionArray
-
-  get_next_rover_array_setup();
-  get_next_rover_array();
-  iterateRoverArray();
-  traffic_cop();
 }
 
 
